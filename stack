@@ -25,15 +25,19 @@ build_image(){
 
 start_or_stop_container() {
     local action=$1
+	local image_tag=${2:-latest}
 
     if [[ "${action}" == "start" ]]; then
 	
 		docker rm -f ${CONTAINER_NAME} &> /dev/null # Purge before launch
 		printf "Deploying ${CONTAINER_NAME} container...\n"
-		docker run -d \
+		docker run -d -it \
+			--network host \
 			--name "${CONTAINER_NAME}" \
 			-v ${SCRIPT_DIR}:${ENTRYPOINT} \
-			${IMAGE_NAME}
+			-w ${ENTRYPOINT} \
+			--entrypoint top \
+			${IMAGE_NAME}:${image_tag}
 
 		until [ "`docker inspect -f {{.State.Status}} ${CONTAINER_NAME}`" == "running" ]; do
 			sleep 0.5;
