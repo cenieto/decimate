@@ -4,7 +4,6 @@ import (
 	"testing"
 )
 
-
 func TestReadPoints(t *testing.T) {
 	result := readPoints("./fixtures/input-4d.json")
 	expected := []Point4D{
@@ -14,8 +13,8 @@ func TestReadPoints(t *testing.T) {
 		t.Errorf("readPoints(\"./fixtures/input-4d.json\") = %v; want %v", result, expected)
 	}
 
-	for index, value := range result{
-		if value != expected[index]{
+	for index, value := range result {
+		if value != expected[index] {
 			t.Errorf("readPoints(\"./fixtures/input-4d.json\") = %v; want %v", result, expected)
 		}
 	}
