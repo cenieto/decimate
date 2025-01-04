@@ -1,3 +1,5 @@
+// Package decimator provides functionalities to decimate, remove points, from a trajectory
+// defined as a set of 4D points.
 package main
 
 import (
@@ -8,6 +10,7 @@ import (
 	"os"
 )
 
+// Point4D is a structure to store spatial/temporal definition of a four dimensional point
 type Point4D struct {
 	X float32 `json:"x"`
 	Y float32 `json:"y"`
@@ -15,13 +18,20 @@ type Point4D struct {
 	T float32 `json:"t"`
 }
 
+// Segment is a structure to store the definition of a four dimensional segment
 type Segment struct {
 	Point1 Point4D
 	Point2 Point4D
 }
 
-func readFile(inputFile string) ([]byte, error) {
-
+// ReadFile opens and reads a file and returns its contents
+// 
+// Parameters:
+//	- inputFile: path to the input file
+//
+// Returns:
+//	- the content of the input file as an array of bytes
+func ReadFile(inputFile string) ([]byte, error) {
 	file, err := os.Open(inputFile)
 	if err != nil {
 		log.Fatalf("Error while opening file: %v", err)
@@ -32,13 +42,19 @@ func readFile(inputFile string) ([]byte, error) {
 	if err != nil {
 		log.Fatalf("Error while reading file: %v", err)
 	}
-
 	return content, nil
-
 }
+
+// ReadPoints opens and reads a file and returns its contents as an array of Point4D
+//
+// Parameters:
+//	- inputFile: path to the input file
+//
+// Returns:
+//	- the content of the input file as an array of Point4D
 func readPoints(filename string) []Point4D {
 
-	bytes, err := readFile(filename)
+	bytes, err := ReadFile(filename)
 	var points []Point4D
 	err = json.Unmarshal(bytes, &points)
 	if err != nil {
