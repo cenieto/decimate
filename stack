@@ -55,11 +55,11 @@ launch_shell(){
 }
 
 unit_tests(){
-	docker exec -it $CONTAINER_NAME bash -c "go test ./..."
+	docker exec $CONTAINER_NAME bash -c "go test ./..."
 }
 
 format_files(){
-	docker exec -it $CONTAINER_NAME bash -c "gofmt -w ."
+	docker exec $CONTAINER_NAME bash -c "gofmt -w ."
 }
 
 case "$1" in
