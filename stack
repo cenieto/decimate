@@ -30,7 +30,7 @@ start_or_stop_container() {
 	
 		docker rm -f ${CONTAINER_NAME} &> /dev/null # Purge before launch
 		printf "Deploying ${CONTAINER_NAME} container...\n"
-		docker run -d -it \
+		docker run -d \
 			--name "${CONTAINER_NAME}" \
 			-v ${SCRIPT_DIR}:${ENTRYPOINT} \
 			${IMAGE_NAME}
