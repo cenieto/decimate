@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 )
 
@@ -16,43 +17,6 @@ type Point4D struct {
 	Y float32 `json:"y"`
 	Z float32 `json:"z"`
 	T float32 `json:"t"`
-}
-
-// Segment is a structure to store the definition of a four dimensional segment
-type Segment struct {
-	Point1 Point4D
-	Point2 Point4D
-}
-
-// LineSegment is a structure to store both all a list of points and the Segment that joins
-// first and last point
-type LineSegment struct {
-	Points         []Point4D
-	Segment        Segment
-	NeedDecimation bool
-}
-
-// Line is a structure to store all the LineSegments that compose a line
-type Line struct {
-	LineSegments []LineSegment
-}
-
-func (l Line) NeedDecimation() bool {
-	answer := false
-	for _, lineSegment := range l.LineSegments{
-		if lineSegment.NeedDecimation{
-			answer = lineSegment.NeedDecimation
-			break
-		}
-	}
-	return answer
-}
-
-func (l Line) decimate(threshold float32) Line {
-	if !l.NeedDecimation(){
-		return l
-	}
-	return l
 }
 
 // ReadFile opens and reads a file and returns its contents
@@ -91,44 +55,61 @@ func readPoints(filename string) []Point4D {
 	if err != nil {
 		log.Fatalf("Error while unmarshalling JSON: %v", err)
 	}
+
 	return points
 }
 
-/*
-// DecimatePoints remove points that are do not exceed the provided threshold
-//
-// Parameters:
-//	- points: the list of points 4D to decimate
-//	- threshold: maximum threshold
-//
-// Returns:
-//	- list of Point4D
-func DecimatePoints(listPoints []ListPoints, threshold float32) []Point4D {
+// DouglasPeucker returns a downsampling of a list of Point4D, applying the Ramer–Douglas–Peucker_algorithm
+// source: https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
+// This function is recursivelly applied over the list of Point4D. Data is stored in place, so only data
+// between indexes 0 and index1 are the output of the algorithm.
+func DouglasPeucker(points []Point4D, epsilon float32) []Point4D {
+	var distance float32
+	var distance_maximum float32
+	distance_maximum = 0.0
 
-}*/
+	size_points := len(points)
+	if size_points < 2 {
+		log.Fatal("Length of point list must be greater than one")
+	}
+
+	if size_points == 2 {
+		return points
+	}
+
+	var index int
+	for i := 1; i < size_points; i++ {
+		distance = PerpendicularDistance(points[i], points[0], points[size_points-1])
+		if distance > distance_maximum {
+			index = i
+			distance_maximum = distance
+		}
+	}
+
+	if distance_maximum > epsilon {
+		first_slice := DouglasPeucker(points[:index+1], epsilon)
+		second_slice := DouglasPeucker(points[index+1:], epsilon)
+		points = append(first_slice, second_slice...)
+	} else {
+		points = append(points[:1], points[len(points)-1])
+	}
+	return points
+
+}
+
+func PerpendicularDistance(P, A, B Point4D) float32 {
+	numerador := math.Abs(float64((B.Y-A.Y)*P.X - (B.X-A.X)*P.Y + B.X*A.Y - B.Y*A.X))
+	denominador := math.Sqrt(float64((B.Y-A.Y)*(B.Y-A.Y) + (B.X-A.X)*(B.X-A.X)))
+	return float32(numerador / denominador)
+}
 
 func main() {
 	inputFile := "./fixtures/input-4d.json"
 	var threshold float32
-	threshold = 1.0
+	threshold = .50
 
 	points := readPoints(inputFile)
-	segment := Segment{
-		Point1: points[0],
-		Point2: points[len(points)-1],
-	}
-	lineSegment := LineSegment{
-		Points:         points,
-		Segment:        segment,
-		NeedDecimation: true,
-	}
-	line := Line{
-		LineSegments: []LineSegment{lineSegment},
-	}
+	points = DouglasPeucker(points, threshold)
 
-	fmt.Println(line.LineSegments[0].Points)
-	fmt.Println(line.LineSegments[0].Segment)
-
-	line = line.decimate(threshold)
-	fmt.Println(line)
+	fmt.Println(points)
 }
