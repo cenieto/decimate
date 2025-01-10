@@ -14,5 +14,11 @@ func main() {
 	if error != nil {
 		errors.New("Error in cross product calculation")
 	}
-	fmt.Println(v3.Components())
-}
+
+	fmt.Printf("The cross product of %v over %v is %v\n",v1.Components(),v2.Components(),v3.Components())
+
+	dimension, error := geometry.Norm(v2)
+
+	fmt.Printf("The norm of v3 is %v\n", *dimension)
+
+}}

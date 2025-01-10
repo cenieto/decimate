@@ -1,11 +1,5 @@
 package geom2d
 
-import (
-	"decimator/pkg/geom3d"
-	"decimator/pkg/interfaces"
-	"errors"
-)
-
 type Vector2D struct {
 	X, Y float64
 }

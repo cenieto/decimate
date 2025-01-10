@@ -5,6 +5,7 @@ import (
 	"decimator/pkg/geom3d"
 	"errors"
 	"fmt"
+	"math"
 )
 
 type Geometry2D struct {
@@ -18,7 +19,7 @@ func (g Geometry2D) CrossProduct(args ...interfaces.Vectorial) (interfaces.Vecto
 	errorMsg := ""
 	for _, arg := range args {
 		if arg.Dimension() != 2 {
-			errorMsg += fmt.Sprintf("Geometry2D is only defined for vectors of dimension 2 %v is of dimension %v\n", arg, arg.Dimension())
+			errorMsg += fmt.Sprintf("Geometry2D is only defined for vectors of dimension 2, %v is of dimension %v\n", arg, arg.Dimension())
 		}
 	}
 
@@ -36,5 +37,16 @@ func (g Geometry2D) CrossProduct(args ...interfaces.Vectorial) (interfaces.Vecto
 	}
 
 	return result, nil
+}
 
+func (g Geometry2D) Norm(v interfaces.Vectorial) (*float64, error){
+	dimension := v.Dimension()
+	if dimension != 2{
+		errorMsg := fmt.Sprintf("Geometry2D is only defined for vectors of dimension 2, v is of dimension %v", dimension)
+		return nil, errors.New(errorMsg)
+	}
+
+	v1 := v.Components()
+	result := math.Sqrt(v1[0]*v1[0]+ v1[1]*v1[1])
+	return &result, nil
 }
