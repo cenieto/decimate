@@ -24,19 +24,3 @@ func (v Vector2D) Dimension() int {
 func (v Vector2D) Components() []float64 {
 	return []float64{v.X, v.Y}
 }
-
-func (v Vector2D) CrossProduct(other interfaces.Vectorial) (interfaces.Vectorial, error) {
-	if other.Dimension() != 2 {
-		return nil, errors.New("Cross product is not defined for vectors of different dimensions")
-	}
-
-	v1 := v.Components()
-	v2 := other.Components()
-	result := geom3d.Vector3D{
-		X: 0.0,
-		Y: 0.0,
-		Z: v1[0]*v2[1] - v1[1]*v2[0],
-	}
-
-	return result, nil
-}
