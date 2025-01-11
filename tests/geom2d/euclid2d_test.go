@@ -4,6 +4,8 @@ import (
 	"decimator/pkg/geom2d"
 	"gonum.org/v1/gonum/mat"
 	"testing"
+	
+	"decimator/tests/testutils"
 )
 
 // TestGeom2dInstantiation tests the correct instantiation of a geom2d object.
@@ -36,7 +38,7 @@ func TestCrossProduct2D(t *testing.T) {
 	result := geom.CrossProduct(v1, v2)
 
 	// Check if the result is approximately equal to the expected result
-	if !mat.EqualApprox(expected, result, testToleranceRelative) {
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
 		t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), mat.Formatted(result), mat.Formatted(expected))
 	}
 }
@@ -55,7 +57,7 @@ func TestCrossProductNorm(t *testing.T) {
 	result := geom.CrossProductNorm(v1, v2)
 
 	// Check if the result is approximately equal to the expected magnitude
-	if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testToleranceRelative) {
+	if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
 		t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), result, expected)
 	}
 }

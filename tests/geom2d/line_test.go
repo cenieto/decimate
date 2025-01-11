@@ -4,6 +4,8 @@ import (
 	"decimator/pkg/geom2d"
 	"gonum.org/v1/gonum/mat"
 	"testing"
+	"decimator/tests/testutils"
+
 )
 
 // TestLine2D validates the creation of a Line2D using NewLine.
@@ -51,7 +53,7 @@ func TestVectorDirector(t *testing.T) {
 	expected := geom2d.NewVector(1.0, -1.0)
 
 	// Check if the result is approximately equal to the expected result
-	if !mat.EqualApprox(expected, result, testToleranceRelative) {
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
 		t.Errorf("line.VectorDirector() = %v; want %v", mat.Formatted(result), mat.Formatted(expected))
 	}
 }

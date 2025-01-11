@@ -4,6 +4,8 @@ import (
 	"decimator/pkg/geom2d"
 	"gonum.org/v1/gonum/mat"
 	"testing"
+	"decimator/tests/testutils"
+
 )
 
 // TestNewVector validates the creation of a Vector2D using NewVector.
@@ -18,7 +20,7 @@ func TestNewVector(t *testing.T) {
 	result := geom2d.NewVector(input[0], input[1])
 	expected := mat.NewVecDense(2, input)
 
-	if !mat.EqualApprox(expected, result, testToleranceRelative) {
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
 		t.Errorf("geom2d.NewVector(%v) = %v; want %v", input, mat.Formatted(result), mat.Formatted(expected))
 	}
 }
@@ -37,7 +39,7 @@ func TestNewVectorTwoPoints(t *testing.T) {
 
 	expected := mat.NewVecDense(2, []float64{1.0, -1.0})
 
-	if !mat.EqualApprox(expected, result, testToleranceRelative) {
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
 		t.Errorf("geom2d.NewVectorTwoPoints(%v, %v) = %v; want %v", mat.Formatted(p1), mat.Formatted(p2), mat.Formatted(result), mat.Formatted(expected))
 	}
 }
