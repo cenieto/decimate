@@ -2,10 +2,9 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
+	"decimator/tests/testutils"
 	"gonum.org/v1/gonum/mat"
 	"testing"
-	"decimator/tests/testutils"
-
 )
 
 // TestLine2D validates the creation of a Line2D using NewLine.

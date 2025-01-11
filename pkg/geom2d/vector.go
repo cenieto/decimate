@@ -18,11 +18,13 @@ type Vector2D struct {
 //   - y (float64): The y-coordinate (vertical component) of the vector.
 //
 // Returns:
-//   *Vector2D: A pointer to a 2D vector represented as a Vector2D.
+//
+//	*Vector2D: A pointer to a 2D vector represented as a Vector2D.
 //
 // Example:
-//   v := geom2d.NewVector(3.0, 4.0)
-//   fmt.Println(v)  // Output: [3.0, 4.0]
+//
+//	v := geom2d.NewVector(3.0, 4.0)
+//	fmt.Println(v)  // Output: [3.0, 4.0]
 func NewVector(x, y float64) *Vector2D {
 	vec := mat.NewVecDense(2, []float64{x, y}) // Create a 2D vector using gonum's NewVecDense
 	return &Vector2D{vec}
@@ -38,13 +40,15 @@ func NewVector(x, y float64) *Vector2D {
 //   - p2 (*Point2D): The ending point of the vector.
 //
 // Returns:
-//   *Vector2D: A pointer to a 2D vector represented as a Vector2D.
+//
+//	*Vector2D: A pointer to a 2D vector represented as a Vector2D.
 //
 // Example:
-//   p1 := geom2d.NewPoint(0.0, 1.0)
-//   p2 := geom2d.NewPoint(1.0, 0.0)
-//   v := geom2d.NewVectorTwoPoints(p1, p2)
-//   fmt.Println(v)  // Output: [1.0, -1.0]
+//
+//	p1 := geom2d.NewPoint(0.0, 1.0)
+//	p2 := geom2d.NewPoint(1.0, 0.0)
+//	v := geom2d.NewVectorTwoPoints(p1, p2)
+//	fmt.Println(v)  // Output: [1.0, -1.0]
 func NewVectorTwoPoints(p1, p2 *Point2D) *Vector2D {
 	coordinates := []float64{
 		p2.At(0, 0) - p1.At(0, 0),

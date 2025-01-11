@@ -2,10 +2,9 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
+	"decimator/tests/testutils"
 	"gonum.org/v1/gonum/mat"
 	"testing"
-	"decimator/tests/testutils"
-
 )
 
 // TestNewVector validates the creation of a Vector2D using NewVector.
@@ -14,7 +13,8 @@ import (
 // 2D vector representation.
 //
 // Arguments:
-//   t (*testing.T): The testing context provided by the Go testing framework.
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
 func TestNewVector(t *testing.T) {
 	input := []float64{0.0, 1.0}
 	result := geom2d.NewVector(input[0], input[1])
@@ -31,7 +31,8 @@ func TestNewVector(t *testing.T) {
 // expected 2D vector representation when calculated as Point2 - Point1.
 //
 // Arguments:
-//   t (*testing.T): The testing context provided by the Go testing framework.
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
 func TestNewVectorTwoPoints(t *testing.T) {
 	p1 := geom2d.NewPoint(0.0, 1.0)
 	p2 := geom2d.NewPoint(1.0, 0.0)

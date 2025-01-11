@@ -2,10 +2,9 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
+	"decimator/tests/testutils"
 	"gonum.org/v1/gonum/mat"
 	"testing"
-	"decimator/tests/testutils"
-
 )
 
 // TestNewPoint validates the creation of a Point2D using NewPoint.
