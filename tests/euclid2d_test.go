@@ -60,15 +60,30 @@ func TestCrossProductNorm(t *testing.T) {
 	}
 }
 
+func TestDoubleAreaTriangle(t *testing.T) {
+	geom := geom2d.NewEuclid() 
+	point := geom2d.NewPoint(2, 0)
+	point_origin_line := geom2d.NewPoint(0, 0)
+	point_end_line := geom2d.NewPoint(0, 2)
+	line := geom2d.NewLine(point_origin_line, point_end_line)
+
+	result := geom.DoubleAreaTriangle(point, line)
+	expected := 4.0
+
+	if result != expected {
+		t.Errorf("geom2d.DoubleAreaTriangle(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2),  result, expected)
+	}
+}
+
 func TestDistancePointLine(t *testing.T) {
 	geom := geom2d.NewEuclid() 
-	point := geom2d.NewPoint(1, 0)
+	point := geom2d.NewPoint(2, 0)
 	point_origin_line := geom2d.NewPoint(0, 0)
-	point_end_line := geom2d.NewPoint(0, 1)
+	point_end_line := geom2d.NewPoint(0, 2)
 	line := geom2d.NewLine(point_origin_line, point_end_line)
 
 	result := geom.DistancePointLine(point, line)
-	expected := 1.0
+	expected := 2.0
 
 	if result != expected {
 		t.Errorf("geom2d.DistancePointLine(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2),  result, expected)
