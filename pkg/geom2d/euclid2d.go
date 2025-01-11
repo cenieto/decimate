@@ -2,29 +2,28 @@ package geom2d
 
 import (
 	"decimator/pkg/geom3d"
-	"gonum.org/v1/gonum/mat"
 )
 
-// Geometry2D represents a 2D geometric system.
+// Euclid2D represents a 2D geometric system.
 // It provides the necessary methods to perform 2D geometric operations such as cross product and others.
-type Geometry2D struct {
+type Euclid2D struct {
 }
 
-// NewGeometry creates and returns a new instance of Geometry2D.
+// NewGeometry creates and returns a new instance of Euclid2D.
 // This initializes a 2D geometry system ready for performing geometric operations.
 //
 // Returns:
-//   - Geometry2D: A new instance of the 2D geometry system.
-func NewGeometry() Geometry2D {
-	return Geometry2D{}
+//   - Euclid2D: A new instance of the 2D geometry system.
+func NewGeometry() Euclid2D {
+	return Euclid2D{}
 }
 
 // Dimension returns the dimension of the geometry system.
-// For Geometry2D, this always returns 2, as it represents a 2-dimensional space.
+// For Euclid2D, this always returns 2, as it represents a 2-dimensional space.
 //
 // Returns:
 //   - int: The dimension of the geometry, which is always 2 for this system.
-func (g Geometry2D) Dimension() int {
+func (g Euclid2D) Dimension() int {
 	return 2
 }
 
@@ -39,7 +38,7 @@ func (g Geometry2D) Dimension() int {
 // Returns:
 //   - *geom3d.Vector3D: A 3D vector (Vector3D) representing the cross product,
 //     where the Z-component is the result of the 2D cross product.
-func (g Geometry2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
+func (g Euclid2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
 	result := geom3d.NewVector(
 		0.0,
 		0.0,
@@ -58,24 +57,24 @@ func (g Geometry2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
 //
 // Returns:
 //   - float64: The magnitude (norm) of the cross product result as a scalar value.
-func (g Geometry2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
+func (g Euclid2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
 	crossProduct := g.CrossProduct(v1, v2)
 	result := crossProduct.VecDense.Norm(2)
 
 	return result
 }
 
-func (g Geometry2D) DistancePointLine(p *Point2D, l *Line2D) float64 {
-	point := l.PointA
-	v := g.VectorTwoPoints(point, p)
-	numerator := g.CrossProductNorm(v, l.VectorDirector())
-	denominator := l.Len()
-	return numerator / denominator
-}
+// func (g Euclid2D) DistancePointLine(p *Point2D, l *Line2D) float64 {
+// 	point := l.PointA
+// 	v := g.VectorTwoPoints(point, p)
+// 	numerator := g.CrossProductNorm(v, l.VectorDirector())
+// 	denominator := l.Len()
+// 	return numerator / denominator
+// }
 
-func (g Geometry2D) VectorTwoPoints(p1, p2 *Point2D) *Vector2D {
-	var result mat.VecDense
-	result.SubVec(p1, p1)
-	vector := NewVector(result.At(0, 0), result.At(1, 0))
-	return vector
-}
+// func (g Euclid2D) VectorTwoPoints(p1, p2 *Point2D) *Vector2D {
+// 	var result mat.VecDense
+// 	result.SubVec(p1, p1)
+// 	vector := NewVector(result.At(0, 0), result.At(1, 0))
+// 	return vector
+// }

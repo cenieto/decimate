@@ -20,12 +20,3 @@ func (l Line2D) VectorDirector() *Vector2D {
 	vector := NewVector(result.At(0, 0), result.At(1, 0))
 	return vector
 }
-
-func (l Line2D) Len() float64 {
-	pa := mat.NewVecDense(2, []float64{l.PointA.At(0,0), l.PointA.At(1,0)})
-	pb := mat.NewVecDense(2, []float64{l.PointB.At(0,0), l.PointB.At(1,0)})
-
-	var result mat.VecDense
-	result.SubVec(pb, pa)
-	return result.Norm(2)
-}
