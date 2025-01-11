@@ -1,52 +1,65 @@
 package geom2d
 
 import (
-	"decimator/pkg/interfaces"
 	"decimator/pkg/geom3d"
-	"errors"
-	"fmt"
-	"math"
 )
 
+// Geometry2D represents a 2D geometric system.
+// It provides the necessary methods to perform 2D geometric operations such as cross product and others.
 type Geometry2D struct {
 }
 
+// NewGeometry creates and returns a new instance of Geometry2D.
+// This initializes a 2D geometry system ready for performing geometric operations.
+// 
+// Returns:
+//   - Geometry2D: A new instance of the 2D geometry system.
 func NewGeometry() Geometry2D {
 	return Geometry2D{}
 }
 
-func (g Geometry2D) CrossProduct(args ...interfaces.Vectorial) (interfaces.Vectorial, error) {
-	errorMsg := ""
-	for _, arg := range args {
-		if arg.Dimension() != 2 {
-			errorMsg += fmt.Sprintf("Geometry2D is only defined for vectors of dimension 2, %v is of dimension %v\n", arg, arg.Dimension())
-		}
-	}
-
-	if len(errorMsg) > 1 {
-		return nil, errors.New(errorMsg)
-	}
-
-	v1 := args[0].Components()
-	v2 := args[1].Components()
-	
-	result := geom3d.Vector3D{
-		X: 0.0,
-		Y: 0.0,
-		Z: v1[0]*v2[1] - v1[1]*v2[0],
-	}
-
-	return result, nil
+// Dimension returns the dimension of the geometry system.
+// For Geometry2D, this always returns 2, as it represents a 2-dimensional space.
+//
+// Returns:
+//   - int: The dimension of the geometry, which is always 2 for this system.
+func (g Geometry2D) Dimension() int {
+	return 2
 }
 
-func (g Geometry2D) Norm(v interfaces.Vectorial) (*float64, error){
-	dimension := v.Dimension()
-	if dimension != 2{
-		errorMsg := fmt.Sprintf("Geometry2D is only defined for vectors of dimension 2, v is of dimension %v", dimension)
-		return nil, errors.New(errorMsg)
-	}
+// CrossProduct computes the cross product of two 2D vectors and returns the result as a 3D vector.
+// The input vectors must have a dimension of 2; otherwise, the function will panic.
+// The resulting 3D vector's Z-component represents the cross product result.
+//
+// Parameters:
+//   - v1: The first 2D vector (Vector2D) to be used in the cross product.
+//   - v2: The second 2D vector (Vector2D) to be used in the cross product.
+//
+// Returns:
+//   - *geom3d.Vector3D: A 3D vector (Vector3D) representing the cross product, 
+//     where the Z-component is the result of the 2D cross product.
+func (g Geometry2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
+	result := geom3d.NewVector(
+		0.0,
+		0.0,
+		v1.At(0, 0)*v2.At(1, 0)-v1.At(1, 0)*v2.At(0, 0),
+	)
 
-	v1 := v.Components()
-	result := math.Sqrt(v1[0]*v1[0]+ v1[1]*v1[1])
-	return &result, nil
+	return result
+}
+
+// CrossProductNorm computes the magnitude (norm) of the cross product of two 2D vectors.
+// It returns the magnitude as a float64 value.
+//
+// Parameters:
+//   - v1: The first 2D vector (Vector2D) used in the cross product calculation.
+//   - v2: The second 2D vector (Vector2D) used in the cross product calculation.
+//
+// Returns:
+//   - float64: The magnitude (norm) of the cross product result as a scalar value.
+func (g Geometry2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
+	crossProduct := g.CrossProduct(v1, v2)
+	result := crossProduct.VecDense.Norm(2)
+
+	return result
 }

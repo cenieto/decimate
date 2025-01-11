@@ -1,42 +1,34 @@
 package geom3d
 
 import (
-	"decimator/pkg/interfaces"
-	"errors"
+	"gonum.org/v1/gonum/mat"
 )
 
+// Vector3D is a wrapper around *mat.VecDense that only represents 3D vectors.
+// It provides a more semantic representation of a 3D vector in the geometry package, ensuring
+// that the vectors are always 3D in nature and allows operations on them.
 type Vector3D struct {
-	X, Y, Z float64
+	*mat.VecDense
 }
 
-func NewVector(x, y, z float64) Vector3D {
-	return Vector3D{
-		X: x,
-		Y: y,
-		Z: z,
-	}
-}
-
-func (v Vector3D) Dimension() int {
-	return 3
-}
-
-func (v Vector3D) Components() []float64 {
-	return []float64{v.X, v.Y, v.Z}
-}
-
-func (v Vector3D) CrossProduct(other interfaces.Vectorial) (interfaces.Vectorial, error) {
-	if other.Dimension() != 3 {
-		return nil, errors.New("Cross product is not defined for vectors of different dimensions")
-	}
-
-	v1 := v.Components()
-	v2 := other.Components()
-	result := Vector3D{
-		X: v1[1]*v2[2] - v1[2]*v2[1],
-		Y: -v1[0]*v2[2] + v1[2]*v2[0],
-		Z: v1[0]*v2[1] - v1[1]*v2[0],
-	}
-
-	return result, nil
+// NewVector creates and returns a new 3D vector as a Vector3D.
+// The function takes two floating-point values that represent the x and y components of the vector.
+// The returned Vector3D is a wrapper around the gonum *mat.VecDense type, initialized with the
+// provided x and y values.
+//
+// Parameters:
+//   - x: The x-coordinate (horizontal component) of the vector.
+//   - y: The y-coordinate (vertical component) of the vector.
+//
+// Returns:
+//   - Vector3D: A 3D vector represented as a Vector3D, which is a wrapper around *mat.VecDense.
+//
+// Example usage:
+//
+//	v := geom3D.NewVector(3.0, 4.0)
+//	fmt.Println(v)  // Output: [3.0, 4.0]
+func NewVector(x, y, z float64) *Vector3D {
+	// Create a 3D vector using gonum's NewVecDense
+	vec := mat.NewVecDense(3, []float64{x, y, z})
+	return &Vector3D{vec}
 }
