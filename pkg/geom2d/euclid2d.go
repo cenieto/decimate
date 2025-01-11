@@ -64,13 +64,13 @@ func (g Euclid2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
 	return result
 }
 
-// func (g Euclid2D) DistancePointLine(p *Point2D, l *Line2D) float64 {
-// 	point := l.Point1
-// 	v := g.VectorTwoPoints(point, p)
-// 	numerator := g.CrossProductNorm(v, l.VectorDirector())
-// 	denominator := l.Len()
-// 	return numerator / denominator
-// }
+func (g Euclid2D) DistancePointLine(point *Point2D, line *Line2D) float64 {
+	lineToPoint := NewVectorTwoPoints(point, line.Point1)
+	vectorDirector := line.VectorDirector()
+	numerator := g.CrossProductNorm(lineToPoint, vectorDirector)
+	denominator := vectorDirector.Norm(2)
+	return numerator / denominator
+}
 
 // func (g Euclid2D) VectorTwoPoints(p1, p2 *Point2D) *Vector2D {
 // 	var result mat.VecDense
