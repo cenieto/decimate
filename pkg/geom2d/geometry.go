@@ -2,6 +2,7 @@ package geom2d
 
 import (
 	"decimator/pkg/geom3d"
+	"gonum.org/v1/gonum/mat"
 )
 
 // Geometry2D represents a 2D geometric system.
@@ -11,7 +12,7 @@ type Geometry2D struct {
 
 // NewGeometry creates and returns a new instance of Geometry2D.
 // This initializes a 2D geometry system ready for performing geometric operations.
-// 
+//
 // Returns:
 //   - Geometry2D: A new instance of the 2D geometry system.
 func NewGeometry() Geometry2D {
@@ -36,7 +37,7 @@ func (g Geometry2D) Dimension() int {
 //   - v2: The second 2D vector (Vector2D) to be used in the cross product.
 //
 // Returns:
-//   - *geom3d.Vector3D: A 3D vector (Vector3D) representing the cross product, 
+//   - *geom3d.Vector3D: A 3D vector (Vector3D) representing the cross product,
 //     where the Z-component is the result of the 2D cross product.
 func (g Geometry2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
 	result := geom3d.NewVector(
@@ -62,4 +63,19 @@ func (g Geometry2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
 	result := crossProduct.VecDense.Norm(2)
 
 	return result
+}
+
+func (g Geometry2D) DistancePointLine(p *Point2D, l *Line2D) float64 {
+	point := l.PointA
+	v := g.VectorTwoPoints(point, p)
+	numerator := g.CrossProductNorm(v, l.VectorDirector())
+	denominator := l.Len()
+	return numerator / denominator
+}
+
+func (g Geometry2D) VectorTwoPoints(p1, p2 *Point2D) *Vector2D {
+	var result mat.VecDense
+	result.SubVec(p1, p1)
+	vector := NewVector(result.At(0, 0), result.At(1, 0))
+	return vector
 }

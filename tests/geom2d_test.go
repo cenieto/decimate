@@ -59,3 +59,18 @@ func TestCrossProductNorm(t *testing.T) {
 		t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), result, expected)
 	}
 }
+
+func TestDistancePointLine(t *testing.T) {
+	geom := geom2d.NewGeometry() // Create new geom2d instance
+	p1 := geom2d.NewPoint(1, 0)  // First vector for cross product
+	p2 := geom2d.NewPoint(0, 0)  // First vector for cross product
+	p3 := geom2d.NewPoint(0, 1)  // First vector for cross product
+	line := geom2d.NewLine(p2, p3)
+
+	result := geom.DistancePointLine(p1, line)
+	expected := 1.0
+
+	if result != expected {
+		t.Errorf("geom2d.DistancePointLine")
+	}
+}
