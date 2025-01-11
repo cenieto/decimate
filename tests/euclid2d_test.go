@@ -60,6 +60,8 @@ func TestCrossProductNorm(t *testing.T) {
 	}
 }
 
+// TestDoubleAreaTriangle tests the calculation of the double area of a triangle formed by a point and a line.
+// Verifies that the double area of a triangle with vertices (2, 0), (0, 0), and (0, 2) is 4.0.
 func TestDoubleAreaTriangle(t *testing.T) {
 	geom := geom2d.NewEuclid() 
 	point := geom2d.NewPoint(2, 0)
@@ -70,11 +72,14 @@ func TestDoubleAreaTriangle(t *testing.T) {
 	result := geom.DoubleAreaTriangle(point, line)
 	expected := 4.0
 
+	// Check if the result matches the expected value
 	if result != expected {
 		t.Errorf("geom2d.DoubleAreaTriangle(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2),  result, expected)
 	}
 }
 
+// TestDistancePointLine tests the calculation of the shortest distance from a point to a line.
+// Verifies that the distance from the point (2, 0) to the line passing through (0, 0) and (0, 2) is 2.0.
 func TestDistancePointLine(t *testing.T) {
 	geom := geom2d.NewEuclid() 
 	point := geom2d.NewPoint(2, 0)
@@ -85,6 +90,7 @@ func TestDistancePointLine(t *testing.T) {
 	result := geom.DistancePointLine(point, line)
 	expected := 2.0
 
+	// Check if the result matches the expected value
 	if result != expected {
 		t.Errorf("geom2d.DistancePointLine(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2),  result, expected)
 	}
