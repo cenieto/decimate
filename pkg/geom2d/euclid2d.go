@@ -9,12 +9,12 @@ import (
 type Euclid2D struct {
 }
 
-// NewGeometry creates and returns a new instance of Euclid2D.
+// NewEuclid creates and returns a new instance of Euclid2D.
 // This initializes a 2D geometry system ready for performing geometric operations.
 //
 // Returns:
 //   - Euclid2D: A new instance of the 2D geometry system.
-func NewGeometry() Euclid2D {
+func NewEuclid() Euclid2D {
 	return Euclid2D{}
 }
 
@@ -65,7 +65,7 @@ func (g Euclid2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
 }
 
 // func (g Euclid2D) DistancePointLine(p *Point2D, l *Line2D) float64 {
-// 	point := l.PointA
+// 	point := l.Point1
 // 	v := g.VectorTwoPoints(point, p)
 // 	numerator := g.CrossProductNorm(v, l.VectorDirector())
 // 	denominator := l.Len()

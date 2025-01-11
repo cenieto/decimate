@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// geometry := geom2d.NewGeometry()
+	// geometry := geom2d.NewEuclid()
 	v1 := geom2d.NewVector(1, 0)
 	v2 := geom2d.NewVector(0, 1)
 

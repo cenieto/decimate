@@ -2,18 +2,19 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
-	"testing"
 	"gonum.org/v1/gonum/mat"
+	"testing"
 )
 
-// TestPoint2D validates the creation of a Point2D using NewPoint.
+// TestNewPoint validates the creation of a Point2D using NewPoint.
 //
 // This test checks if the Point2D created by geom2d.NewPoint matches the expected
 // 2D vector representation.
 //
 // Arguments:
-//   t (*testing.T): The testing context provided by the Go testing framework.
-func TestPoint2D(t *testing.T) {
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
+func TestNewPoint(t *testing.T) {
 	input := []float64{0.0, 1.0}
 	result := geom2d.NewPoint(input[0], input[1])
 	expected := mat.NewVecDense(2, input)

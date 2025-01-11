@@ -2,8 +2,8 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
-	"testing"
 	"gonum.org/v1/gonum/mat"
+	"testing"
 )
 
 // TestLine2D validates the creation of a Line2D using NewLine.
@@ -12,7 +12,8 @@ import (
 // its Point1 and Point2 properties.
 //
 // Arguments:
-//   t (*testing.T): The testing context provided by the Go testing framework.
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
 func TestLine2D(t *testing.T) {
 	p1 := geom2d.NewPoint(0.0, 1.0)
 	p2 := geom2d.NewPoint(1.0, 0.0)
@@ -39,7 +40,8 @@ func TestLine2D(t *testing.T) {
 // the expected 2D vector.
 //
 // Arguments:
-//   t (*testing.T): The testing context provided by the Go testing framework.
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
 func TestVectorDirector(t *testing.T) {
 	p1 := geom2d.NewPoint(0.0, 1.0)
 	p2 := geom2d.NewPoint(1.0, 0.0)

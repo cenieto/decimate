@@ -9,7 +9,7 @@ import (
 // TestGeom2dInstantiation tests the correct instantiation of a geom2d object.
 // Verifies that a newly created instance of geom2d returns a dimension of 2, which is expected for a 2D geometry.
 func TestGeom2dInstantiation(t *testing.T) {
-	geom2d := geom2d.NewGeometry() // Create a new geom2d instance
+	geom2d := geom2d.NewEuclid() // Create a new geom2d instance
 
 	dimension := geom2d.Dimension() // Get the dimension of the geometry
 
@@ -27,7 +27,7 @@ func TestGeom2dInstantiation(t *testing.T) {
 func TestCrossProduct2D(t *testing.T) {
 	expected := mat.NewVecDense(3, []float64{0, 0, 1}) // Expected result for the cross product
 
-	geom := geom2d.NewGeometry() // Create new geom2d instance
+	geom := geom2d.NewEuclid() // Create new geom2d instance
 
 	v1 := geom2d.NewVector(1, 0) // First vector for cross product
 	v2 := geom2d.NewVector(0, 1) // Second vector for cross product
@@ -46,7 +46,7 @@ func TestCrossProduct2D(t *testing.T) {
 func TestCrossProductNorm(t *testing.T) {
 	expected := 1.0 // Expected result for the magnitude of the cross product
 
-	geom := geom2d.NewGeometry() // Create new geom2d instance
+	geom := geom2d.NewEuclid() // Create new geom2d instance
 
 	v1 := geom2d.NewVector(1, 0) // First vector for cross product
 	v2 := geom2d.NewVector(0, 1) // Second vector for cross product
@@ -61,7 +61,7 @@ func TestCrossProductNorm(t *testing.T) {
 }
 
 // func TestDistancePointLine(t *testing.T) {
-// 	geom := geom2d.NewGeometry() // Create new geom2d instance
+// 	geom := geom2d.NewEuclid() // Create new geom2d instance
 // 	p1 := geom2d.NewPoint(1, 0)  // First vector for cross product
 // 	p2 := geom2d.NewPoint(0, 0)  // First vector for cross product
 // 	p3 := geom2d.NewPoint(0, 1)  // First vector for cross product
