@@ -1,8 +1,7 @@
-package test
+package geom2d
 
 import (
-	"decimator/pkg/geom2d"
-	"decimator/tests/testutils"
+	"decimator/pkg/testutils"
 	"gonum.org/v1/gonum/mat"
 	"io"
 	"math"
@@ -14,7 +13,7 @@ import (
 // Arguments: none
 // Returns: none
 func TestGeom2dInstantiation(t *testing.T) {
-	geom2d := geom2d.NewEuclid() // Create a new geom2d instance
+	geom2d := NewEuclid() // Create a new geom2d instance
 
 	dimension := geom2d.Dimension() // Get the dimension of the geometry
 
@@ -51,10 +50,10 @@ func TestCrossProduct2D(t *testing.T) {
 
 		expected := mat.NewVecDense(3, []float64{values[6], values[7], values[8]}) // Expected result for the cross product
 
-		geom := geom2d.NewEuclid() // Create new geom2d instance
+		geom := NewEuclid() // Create new geom2d instance
 
-		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
-		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
+		v1 := NewVector(values[0], values[1]) // First vector for cross product
+		v2 := NewVector(values[3], values[4]) // Second vector for cross product
 
 		// Compute the cross product of v1 and v2
 		result := geom.CrossProduct(v1, v2)
@@ -89,10 +88,10 @@ func TestCrossProductNorm(t *testing.T) {
 		}
 		expected := math.Abs(values[8]) // Expected result for the magnitude of the cross product
 
-		geom := geom2d.NewEuclid() // Create new geom2d instance
+		geom := NewEuclid() // Create new geom2d instance
 
-		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
-		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
+		v1 := NewVector(values[0], values[1]) // First vector for cross product
+		v2 := NewVector(values[3], values[4]) // Second vector for cross product
 
 		// Compute the magnitude of the cross product of v1 and v2
 		result := geom.CrossProductNorm(v1, v2)
@@ -125,11 +124,11 @@ func TestDoubleAreaTriangle(t *testing.T) {
 			t.Fatalf("Error while reading line %v\n", err)
 		}
 
-		geom := geom2d.NewEuclid()
-		point := geom2d.NewPoint(values[0], values[1])
-		point_origin_line := geom2d.NewPoint(values[2], values[3])
-		point_end_line := geom2d.NewPoint(values[4], values[5])
-		line := geom2d.NewLine(point_origin_line, point_end_line)
+		geom := NewEuclid()
+		point := NewPoint(values[0], values[1])
+		point_origin_line := NewPoint(values[2], values[3])
+		point_end_line := NewPoint(values[4], values[5])
+		line := NewLine(point_origin_line, point_end_line)
 
 		result := geom.DoubleAreaTriangle(point, line)
 		expected := values[6]
@@ -162,11 +161,11 @@ func TestDistancePointLine(t *testing.T) {
 			t.Fatalf("Error while reading line %v\n", err)
 		}
 
-		geom := geom2d.NewEuclid()
-		point := geom2d.NewPoint(values[0], values[1])
-		point_origin_line := geom2d.NewPoint(values[2], values[3])
-		point_end_line := geom2d.NewPoint(values[4], values[5])
-		line := geom2d.NewLine(point_origin_line, point_end_line)
+		geom := NewEuclid()
+		point := NewPoint(values[0], values[1])
+		point_origin_line := NewPoint(values[2], values[3])
+		point_end_line := NewPoint(values[4], values[5])
+		line := NewLine(point_origin_line, point_end_line)
 
 		result := geom.DistancePointLine(point, line)
 		expected := values[7]

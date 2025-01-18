@@ -1,26 +1,25 @@
-package test
+package geom2d
 
 import (
-	"decimator/pkg/geom2d"
-	"decimator/tests/testutils"
+	"decimator/pkg/testutils"
 	"gonum.org/v1/gonum/mat"
 	"testing"
 )
 
 // TestLine2D validates the creation of a Line2D using NewLine.
 //
-// This test checks if the Line2D created by geom2d.NewLine correctly initializes
+// This test checks if the Line2D created by NewLine correctly initializes
 // its Point1 and Point2 properties.
 //
 // Arguments:
 //
 //	t (*testing.T): The testing context provided by the Go testing framework.
 func TestLine2D(t *testing.T) {
-	p1 := geom2d.NewPoint(0.0, 1.0)
-	p2 := geom2d.NewPoint(1.0, 0.0)
-	result := geom2d.NewLine(p1, p2)
+	p1 := NewPoint(0.0, 1.0)
+	p2 := NewPoint(1.0, 0.0)
+	result := NewLine(p1, p2)
 
-	expected := geom2d.Line2D{
+	expected := Line2D{
 		Point1: p1,
 		Point2: p2,
 	}
@@ -31,7 +30,7 @@ func TestLine2D(t *testing.T) {
 	}
 
 	if errorMsgs {
-		t.Errorf("geom2d.NewLine(%v, %v) = %v; want %v", mat.Formatted(p1), mat.Formatted(p2), result, expected)
+		t.Errorf("NewLine(%v, %v) = %v; want %v", mat.Formatted(p1), mat.Formatted(p2), result, expected)
 	}
 }
 
@@ -44,12 +43,12 @@ func TestLine2D(t *testing.T) {
 //
 //	t (*testing.T): The testing context provided by the Go testing framework.
 func TestVectorDirector(t *testing.T) {
-	p1 := geom2d.NewPoint(0.0, 1.0)
-	p2 := geom2d.NewPoint(1.0, 0.0)
-	line := geom2d.NewLine(p1, p2)
+	p1 := NewPoint(0.0, 1.0)
+	p2 := NewPoint(1.0, 0.0)
+	line := NewLine(p1, p2)
 
 	result := line.VectorDirector()
-	expected := geom2d.NewVector(1.0, -1.0)
+	expected := NewVector(1.0, -1.0)
 
 	// Check if the result is approximately equal to the expected result
 	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
