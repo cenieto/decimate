@@ -11,8 +11,8 @@ import (
 
 // TestGeom2dInstantiation tests the correct instantiation of a geom2d object.
 // Verifies that a newly created instance of geom2d returns a dimension of 2, which is expected for a 2D geometry.
-// Input: none
-// Output: none
+// Arguments: none
+// Returns: none
 func TestGeom2dInstantiation(t *testing.T) {
 	geom2d := geom2d.NewEuclid() // Create a new geom2d instance
 
@@ -30,8 +30,8 @@ func TestGeom2dInstantiation(t *testing.T) {
 // Verifies that the cross product of 2D vectors results in a 3D vector.
 // Set of inputs and expected results are read from a CSV file.
 // This test ensures the correctness of the cross product operation for 2D vectors in a 3D space.
-// Input: none
-// Output: none
+// Arguments: none
+// Returns: none
 func TestCrossProduct2D(t *testing.T) {
 
 	fixtureFile := "../../testdata/geom2d/cross-product.csv"  // Updated fixture file path
@@ -70,8 +70,8 @@ func TestCrossProduct2D(t *testing.T) {
 // TestCrossProductNorm tests the cross product norm (magnitude) for 2D vectors.
 // Verifies that the cross product of two 2D vectors results in a correct magnitude
 // Set of inputs and expected results are read from a CSV file.
-// Input: none
-// Output: none
+// Arguments: none
+// Returns: none
 func TestCrossProductNorm(t *testing.T) {
 	fixtureFile := "../../testdata/geom2d/cross-product.csv"  // Updated fixture file path
 	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
@@ -107,8 +107,8 @@ func TestCrossProductNorm(t *testing.T) {
 // TestDoubleAreaTriangle tests the calculation of the double area of a triangle formed by a point and a line.
 // Verifies that the double area of a triangle with vertices in three 2D points is computed correctly.
 // Set of inputs and expected results are read from a CSV file.
-// Input: none
-// Output: none
+// Arguments: none
+// Returns: none
 func TestDoubleAreaTriangle(t *testing.T) {
 	fixtureFile := "../../testdata/geom2d/point-line.csv"     // Updated fixture file path
 	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
@@ -144,8 +144,8 @@ func TestDoubleAreaTriangle(t *testing.T) {
 // TestDistancePointLine tests the calculation of the shortest distance from a point to a line.
 // Verifies that the distance from one 2D point to the line passing through two 2D points is computed correctly.
 // Set of inputs and expected results are read from a CSV file.
-// Input: none
-// Output: none
+// Arguments: none
+// Returns: none
 func TestDistancePointLine(t *testing.T) {
 	fixtureFile := "../../testdata/geom2d/point-line.csv"     // Updated fixture file path
 	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader

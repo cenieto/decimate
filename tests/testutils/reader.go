@@ -16,6 +16,10 @@ type CSVFloat64Reader struct {
 }
 
 // NewCSVFloat64Reader creates a new CSVFloat64Reader.
+// Arguments: 
+//   - filePath (string): The path to the CSV file.
+// Returns: 
+//   - (*CSVFloat64Reader, error): A pointer to the CSVFloat64Reader and an error if any.
 func NewCSVFloat64Reader(filePath string) (*CSVFloat64Reader, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -31,6 +35,9 @@ func NewCSVFloat64Reader(filePath string) (*CSVFloat64Reader, error) {
 }
 
 // Read reads the next line from the CSV file and returns a slice of float64 values.
+// Arguments: none
+// Returns: 
+//   - ([]float64, error): A slice of float64 values and an error if any.
 func (r *CSVFloat64Reader) Read() ([]float64, error) {
 	line, err := r.reader.Read()
 	if err != nil {
