@@ -27,7 +27,6 @@ type Vector2D struct {
 //	v := geom2d.NewVector(3.0, 4.0)
 //	fmt.Println(v)  // Output: [3.0, 4.0]
 func NewVector(x, y float64) *Vector2D {
-
 	return &Vector2D{
 		VecDense: mat.NewVecDense(2, []float64{x, y}),
 	}

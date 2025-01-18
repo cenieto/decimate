@@ -29,9 +29,9 @@ type Vector3D struct {
 //	v := geom3D.NewVector(3.0, 4.0)
 //	fmt.Println(v)  // Output: [3.0, 4.0]
 func NewVector(x, y, z float64) *Vector3D {
-	// Create a 3D vector using gonum's NewVecDense
-	vec := mat.NewVecDense(3, []float64{x, y, z})
-	return &Vector3D{vec}
+	return &Vector3D{
+		VecDense: mat.NewVecDense(3, []float64{x, y, z}),
+	}
 }
 
 // NewVectorTwoPoints creates a 3D vector from two points.
@@ -59,8 +59,9 @@ func NewVectorTwoPoints(p1, p2 *Point3D) *Vector3D {
 		p2.At(1, 0) - p1.At(1, 0),
 		p2.At(2, 0) - p1.At(2, 0),
 	}
-	vec := mat.NewVecDense(3, coordinates) // Create a vector with the computed coordinates
-	return &Vector3D{vec}
+	return &Vector3D{
+		VecDense: mat.NewVecDense(3, coordinates),
+	}
 }
 
 // String returns a string representation of the Vector object.
