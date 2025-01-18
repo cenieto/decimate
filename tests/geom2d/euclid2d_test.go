@@ -2,9 +2,11 @@ package test
 
 import (
 	"decimator/pkg/geom2d"
-	"gonum.org/v1/gonum/mat"
-	"testing"
 	"decimator/tests/testutils"
+	"gonum.org/v1/gonum/mat"
+	"io"
+	"math"
+	"testing"
 )
 
 // TestGeom2dInstantiation tests the correct instantiation of a geom2d object.
@@ -26,73 +28,138 @@ func TestGeom2dInstantiation(t *testing.T) {
 // Verifies that the cross product of two 2D vectors (1, 0) and (0, 1) results in the 3D vector (0, 0, 1).
 // This test ensures the correctness of the cross product operation for 2D vectors in a 3D space.
 func TestCrossProduct2D(t *testing.T) {
-	expected := mat.NewVecDense(3, []float64{0, 0, 1}) // Expected result for the cross product
 
-	geom := geom2d.NewEuclid() // Create new geom2d instance
-
-	v1 := geom2d.NewVector(1, 0) // First vector for cross product
-	v2 := geom2d.NewVector(0, 1) // Second vector for cross product
-
-	// Compute the cross product of v1 and v2
-	result := geom.CrossProduct(v1, v2)
-
-	// Check if the result is approximately equal to the expected result
-	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
-		t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), mat.Formatted(result), mat.Formatted(expected))
+	fixtureFile := "../../testdata/geom2d/cross-product.csv"  // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	if err != nil {
+		t.Fatalf("Error while opening CSV file: %v", err)
 	}
+
+	for {
+		values, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("Error while reading line %v\n", err)
+		}
+
+		expected := mat.NewVecDense(3, []float64{values[6], values[7], values[8]}) // Expected result for the cross product
+
+		geom := geom2d.NewEuclid() // Create new geom2d instance
+
+		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
+		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
+
+		// Compute the cross product of v1 and v2
+		result := geom.CrossProduct(v1, v2)
+
+		// Check if the result is approximately equal to the expected result
+		if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
+			t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), mat.Formatted(result), mat.Formatted(expected))
+		}
+	}
+
 }
 
 // TestCrossProductNorm tests the cross product norm (magnitude) for 2D vectors.
 // Verifies that the cross product of (1, 0) and (0, 1) results in a magnitude of 1.0.
 func TestCrossProductNorm(t *testing.T) {
-	expected := 1.0 // Expected result for the magnitude of the cross product
+	fixtureFile := "../../testdata/geom2d/cross-product.csv"  // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	if err != nil {
+		t.Fatalf("Error while opening CSV file: %v", err)
+	}
 
-	geom := geom2d.NewEuclid() // Create new geom2d instance
+	for {
+		values, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("Error while reading line %v\n", err)
+		}
+		expected := math.Abs(values[8]) // Expected result for the magnitude of the cross product
 
-	v1 := geom2d.NewVector(1, 0) // First vector for cross product
-	v2 := geom2d.NewVector(0, 1) // Second vector for cross product
+		geom := geom2d.NewEuclid() // Create new geom2d instance
 
-	// Compute the magnitude of the cross product of v1 and v2
-	result := geom.CrossProductNorm(v1, v2)
+		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
+		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
 
-	// Check if the result is approximately equal to the expected magnitude
-	if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
-		t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), result, expected)
+		// Compute the magnitude of the cross product of v1 and v2
+		result := geom.CrossProductNorm(v1, v2)
+
+		// Check if the result is approximately equal to the expected magnitude
+		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
+			t.Errorf("TestCrossProductNorm(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), result, expected)
+		}
 	}
 }
 
 // TestDoubleAreaTriangle tests the calculation of the double area of a triangle formed by a point and a line.
 // Verifies that the double area of a triangle with vertices (2, 0), (0, 0), and (0, 2) is 4.0.
 func TestDoubleAreaTriangle(t *testing.T) {
-	geom := geom2d.NewEuclid()
-	point := geom2d.NewPoint(2, 0)
-	point_origin_line := geom2d.NewPoint(0, 0)
-	point_end_line := geom2d.NewPoint(0, 2)
-	line := geom2d.NewLine(point_origin_line, point_end_line)
+	fixtureFile := "../../testdata/geom2d/point-line.csv"     // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	if err != nil {
+		t.Fatalf("Error while opening CSV file: %v", err)
+	}
 
-	result := geom.DoubleAreaTriangle(point, line)
-	expected := 4.0
+	for {
+		values, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("Error while reading line %v\n", err)
+		}
 
-	// Check if the result matches the expected value
-	if result != expected {
-		t.Errorf("geom2d.DoubleAreaTriangle(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2), result, expected)
+		geom := geom2d.NewEuclid()
+		point := geom2d.NewPoint(values[0], values[1])
+		point_origin_line := geom2d.NewPoint(values[2], values[3])
+		point_end_line := geom2d.NewPoint(values[4], values[5])
+		line := geom2d.NewLine(point_origin_line, point_end_line)
+
+		result := geom.DoubleAreaTriangle(point, line)
+		expected := values[6]
+
+		// Check if the result is approximately equal to the expected magnitude
+		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
+			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point, line, result, expected)
+		}
 	}
 }
 
 // TestDistancePointLine tests the calculation of the shortest distance from a point to a line.
 // Verifies that the distance from the point (2, 0) to the line passing through (0, 0) and (0, 2) is 2.0.
 func TestDistancePointLine(t *testing.T) {
-	geom := geom2d.NewEuclid()
-	point := geom2d.NewPoint(2, 0)
-	point_origin_line := geom2d.NewPoint(0, 0)
-	point_end_line := geom2d.NewPoint(0, 2)
-	line := geom2d.NewLine(point_origin_line, point_end_line)
+	fixtureFile := "../../testdata/geom2d/point-line.csv"     // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	if err != nil {
+		t.Fatalf("Error while opening CSV file: %v", err)
+	}
 
-	result := geom.DistancePointLine(point, line)
-	expected := 2.0
+	for {
+		values, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("Error while reading line %v\n", err)
+		}
 
-	// Check if the result matches the expected value
-	if result != expected {
-		t.Errorf("geom2d.DistancePointLine(%v,line(%v, %v)) = %v; want %v", mat.Formatted(point), mat.Formatted(line.Point1), mat.Formatted(line.Point2), result, expected)
+		geom := geom2d.NewEuclid()
+		point := geom2d.NewPoint(values[0], values[1])
+		point_origin_line := geom2d.NewPoint(values[2], values[3])
+		point_end_line := geom2d.NewPoint(values[4], values[5])
+		line := geom2d.NewLine(point_origin_line, point_end_line)
+
+		result := geom.DistancePointLine(point, line)
+		expected := values[7]
+
+		// Check if the result is approximately equal to the expected magnitude
+		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
+			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point, line, result, expected)
+		}
 	}
 }
