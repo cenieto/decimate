@@ -54,7 +54,7 @@ func (g Euclid2D) CrossProduct(v1, v2 *Vector2D) *geom3d.Vector3D {
 //   - float64: The magnitude (norm) of the cross product.
 func (g Euclid2D) CrossProductNorm(v1, v2 *Vector2D) float64 {
 	crossProduct := g.CrossProduct(v1, v2)
-	result := crossProduct.VecDense.Norm(2)
+	result := crossProduct.Length()
 	return result
 }
 
@@ -87,6 +87,6 @@ func (g Euclid2D) DoubleAreaTriangle(point *Point2D, line *Line2D) float64 {
 //   - float64: The shortest distance from the point to the line.
 func (g Euclid2D) DistancePointLine(point *Point2D, line *Line2D) float64 {
 	numerator := g.DoubleAreaTriangle(point, line)
-	denominator := line.VectorDirector().Norm(2)
+	denominator := line.VectorDirector().Length()
 	return numerator / denominator
 }

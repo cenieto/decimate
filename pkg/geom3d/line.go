@@ -49,6 +49,15 @@ func (l Line3D) VectorDirector() *Vector3D {
 // Returns:
 //
 //	float64: The length of the line.
+func (l Line3D) Length() float64 {
+	return l.VectorDirector().Norm(2)
+}
+
+// String returns a string representation of the Line object.
+//
+// Returns:
+//
+//	string: A string representation of the Line2D object.
 func (l Line3D) String() string {
 	return fmt.Sprintf("Line3D(%s, %s)", l.Point1, l.Point2)
 }

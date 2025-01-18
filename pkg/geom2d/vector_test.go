@@ -63,3 +63,23 @@ func TestVectorString(t *testing.T) {
 		t.Errorf("vector.String() = %v; want %v", result, expected)
 	}
 }
+
+
+// TestLength validates the calculation of the length of a Vector2D.
+//
+// This test checks if the length calculated by Length matches the expected value.
+//
+// Arguments:
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
+func TestVectorLength(t *testing.T) {
+	vector := NewVector(1.0,1.0)
+
+	result := vector.Length()
+	expected := 1.4142135623730951
+
+	// Check if the result is approximately equal to the expected result
+	if result != expected {
+		t.Errorf("line.Length() = %v; want %v", result, expected)
+	}
+}

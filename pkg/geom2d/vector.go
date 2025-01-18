@@ -71,3 +71,14 @@ func NewVectorTwoPoints(p1, p2 *Point2D) *Vector2D {
 func (v Vector2D) String() string {
 	return fmt.Sprintf("%v", mat.Formatted(v.VecDense))
 }
+
+// Length calculates the length of the vector.
+//
+// The length is computed as the norm of the vector.
+//
+// Returns:
+//
+//	float64: The length of the vetor.
+func (v Vector2D) Length() float64 {
+	return v.Norm(2)
+}
