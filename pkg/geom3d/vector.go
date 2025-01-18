@@ -32,3 +32,32 @@ func NewVector(x, y, z float64) *Vector3D {
 	vec := mat.NewVecDense(3, []float64{x, y, z})
 	return &Vector3D{vec}
 }
+
+// NewVectorTwoPoints creates a 3D vector from two points.
+//
+// The resulting vector is calculated as the difference between the coordinates of the second
+// point (p2) and the first point (p1): p2 - p1.
+//
+// Parameters:
+//   - p1 (*Point2D): The starting point of the vector.
+//   - p2 (*Point2D): The ending point of the vector.
+//
+// Returns:
+//
+//	*Vector3D: A pointer to a 3D vector represented as a Vector3D.
+//
+// Example:
+//
+//	p1 := geom3d.NewPoint(0.0, 1.0)
+//	p2 := geom3d.NewPoint(1.0, 0.0)
+//	v := geom3d.NewVectorTwoPoints(p1, p2)
+//	fmt.Println(v)  // Output: [1.0, -1.0]
+func NewVectorTwoPoints(p1, p2 *Point3D) *Vector3D {
+	coordinates := []float64{
+		p2.At(0, 0) - p1.At(0, 0),
+		p2.At(1, 0) - p1.At(1, 0),
+		p2.At(2, 0) - p1.At(2, 0),
+	}
+	vec := mat.NewVecDense(3, coordinates) // Create a vector with the computed coordinates
+	return &Vector3D{vec}
+}
