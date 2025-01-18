@@ -1,12 +1,13 @@
 package geom2d
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
 
 // Point2D represents a 2D point using a vector with two components (x, y).
 type Point2D struct {
-	*mat.VecDense // Embeds VecDense for matrix operations
+	*mat.VecDense
 }
 
 // NewPoint creates a new Point2D instance.
@@ -20,6 +21,16 @@ type Point2D struct {
 //
 //	*Point2D: A pointer to the newly created Point2D, which contains a 2D vector.
 func NewPoint(x, y float64) *Point2D {
-	point := mat.NewVecDense(2, []float64{x, y})
-	return &Point2D{point}
+	return &Point2D{
+		VecDense: mat.NewVecDense(2, []float64{x, y}),
+	}
+}
+
+// String returns a string representation of the Point object.
+//
+// Returns:
+//
+//	string: A string representation of the Point2D object.
+func (p Point2D) String() string {
+	return fmt.Sprintf("Point{%v}", mat.Formatted(p.VecDense))
 }

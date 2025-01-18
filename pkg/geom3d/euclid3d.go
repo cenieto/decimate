@@ -1,6 +1,5 @@
 package geom3d
 
-
 // Euclid3D represents a 3D geometric system.
 // It provides the necessary methods to perform 3D geometric operations such as cross product and distance calculations.
 type Euclid3D struct {
@@ -34,7 +33,7 @@ func (g Euclid3D) Dimension() int {
 func (g Euclid3D) CrossProduct(v1, v2 *Vector3D) *Vector3D {
 	result := NewVector(
 		v1.At(1, 0)*v2.At(2, 0)-v1.At(2, 0)*v2.At(1, 0),
-		- v1.At(0, 0)*v2.At(2, 0)+v1.At(2, 0)*v2.At(0, 0),
+		-v1.At(0, 0)*v2.At(2, 0)+v1.At(2, 0)*v2.At(0, 0),
 		v1.At(0, 0)*v2.At(1, 0)-v1.At(1, 0)*v2.At(0, 0),
 	)
 	return result
@@ -51,7 +50,7 @@ func (g Euclid3D) CrossProduct(v1, v2 *Vector3D) *Vector3D {
 //   - float64: The magnitude (norm) of the cross product.
 func (g Euclid3D) CrossProductNorm(v1, v2 *Vector3D) float64 {
 	crossProduct := g.CrossProduct(v1, v2)
-	result := crossProduct.VecDense.Norm(2)
+	result := crossProduct.Length()
 	return result
 }
 
@@ -84,6 +83,6 @@ func (g Euclid3D) DoubleAreaTriangle(point *Point3D, line *Line3D) float64 {
 //   - float64: The shortest distance from the point to the line.
 func (g Euclid3D) DistancePointLine(point *Point3D, line *Line3D) float64 {
 	numerator := g.DoubleAreaTriangle(point, line)
-	denominator := line.VectorDirector().Norm(2)
+	denominator := line.Length()
 	return numerator / denominator
 }

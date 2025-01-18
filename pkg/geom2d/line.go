@@ -1,6 +1,7 @@
 package geom2d
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
 
@@ -37,4 +38,24 @@ func (l Line2D) VectorDirector() *Vector2D {
 	result.SubVec(l.Point2, l.Point1) // Calculate Point2 - Point1
 	vector := NewVector(result.At(0, 0), result.At(1, 0))
 	return vector
+}
+
+// Length calculates the length of the line.
+//
+// The length is computed as the norm of the direction vector.
+//
+// Returns:
+//
+//	float64: The length of the line.
+func (l Line2D) Length() float64 {
+	return l.VectorDirector().Norm(2)
+}
+
+// String returns a string representation of the Line object.
+//
+// Returns:
+//
+//	string: A string representation of the Line2D object.
+func (l Line2D) String() string {
+	return fmt.Sprintf("Line{%v, %v}", l.Point1.String(), l.Point2.String())
 }

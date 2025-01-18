@@ -1,7 +1,8 @@
-package geom2d
+package test
 
 import (
-	"decimator/pkg/testutils"
+	"decimator/pkg/geom2d"
+	"decimator/tests/testutils"
 	"gonum.org/v1/gonum/mat"
 	"io"
 	"math"
@@ -13,7 +14,7 @@ import (
 // Arguments: none
 // Returns: none
 func TestGeom2dInstantiation(t *testing.T) {
-	geom2d := NewEuclid() // Create a new geom2d instance
+	geom2d := geom2d.NewEuclid() // Create a new geom2d instance
 
 	dimension := geom2d.Dimension() // Get the dimension of the geometry
 
@@ -50,17 +51,17 @@ func TestCrossProduct2D(t *testing.T) {
 
 		expected := mat.NewVecDense(3, []float64{values[6], values[7], values[8]}) // Expected result for the cross product
 
-		geom := NewEuclid() // Create new geom2d instance
+		geom := geom2d.NewEuclid() // Create new geom2d instance
 
-		v1 := NewVector(values[0], values[1]) // First vector for cross product
-		v2 := NewVector(values[3], values[4]) // Second vector for cross product
+		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
+		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
 
 		// Compute the cross product of v1 and v2
 		result := geom.CrossProduct(v1, v2)
 
 		// Check if the result is approximately equal to the expected result
 		if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
-			t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", v1.String(), v2.String(), result.String(), mat.Formatted(expected))
+			t.Errorf("TestCrossProduct2D(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), mat.Formatted(result), mat.Formatted(expected))
 		}
 	}
 
@@ -88,17 +89,17 @@ func TestCrossProductNorm(t *testing.T) {
 		}
 		expected := math.Abs(values[8]) // Expected result for the magnitude of the cross product
 
-		geom := NewEuclid() // Create new geom2d instance
+		geom := geom2d.NewEuclid() // Create new geom2d instance
 
-		v1 := NewVector(values[0], values[1]) // First vector for cross product
-		v2 := NewVector(values[3], values[4]) // Second vector for cross product
+		v1 := geom2d.NewVector(values[0], values[1]) // First vector for cross product
+		v2 := geom2d.NewVector(values[3], values[4]) // Second vector for cross product
 
 		// Compute the magnitude of the cross product of v1 and v2
 		result := geom.CrossProductNorm(v1, v2)
 
 		// Check if the result is approximately equal to the expected magnitude
 		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
-			t.Errorf("TestCrossProductNorm(%v, %v) = %v; want %v", v1.String(), v2.String(), result, expected)
+			t.Errorf("TestCrossProductNorm(%v, %v) = %v; want %v", mat.Formatted(v1), mat.Formatted(v2), result, expected)
 		}
 	}
 }
@@ -124,18 +125,18 @@ func TestDoubleAreaTriangle(t *testing.T) {
 			t.Fatalf("Error while reading line %v\n", err)
 		}
 
-		geom := NewEuclid()
-		point := NewPoint(values[0], values[1])
-		point_origin_line := NewPoint(values[2], values[3])
-		point_end_line := NewPoint(values[4], values[5])
-		line := NewLine(point_origin_line, point_end_line)
+		geom := geom2d.NewEuclid()
+		point := geom2d.NewPoint(values[0], values[1])
+		point_origin_line := geom2d.NewPoint(values[2], values[3])
+		point_end_line := geom2d.NewPoint(values[4], values[5])
+		line := geom2d.NewLine(point_origin_line, point_end_line)
 
 		result := geom.DoubleAreaTriangle(point, line)
 		expected := values[6]
 
 		// Check if the result is approximately equal to the expected magnitude
 		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
-			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point.String(), line.String(), result, expected)
+			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point, line, result, expected)
 		}
 	}
 }
@@ -161,18 +162,18 @@ func TestDistancePointLine(t *testing.T) {
 			t.Fatalf("Error while reading line %v\n", err)
 		}
 
-		geom := NewEuclid()
-		point := NewPoint(values[0], values[1])
-		point_origin_line := NewPoint(values[2], values[3])
-		point_end_line := NewPoint(values[4], values[5])
-		line := NewLine(point_origin_line, point_end_line)
+		geom := geom2d.NewEuclid()
+		point := geom2d.NewPoint(values[0], values[1])
+		point_origin_line := geom2d.NewPoint(values[2], values[3])
+		point_end_line := geom2d.NewPoint(values[4], values[5])
+		line := geom2d.NewLine(point_origin_line, point_end_line)
 
 		result := geom.DistancePointLine(point, line)
 		expected := values[7]
 
 		// Check if the result is approximately equal to the expected magnitude
 		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
-			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point.String(), line.String(), result, expected)
+			t.Errorf("DoubleAreaTriangle(%v, %v) = %v; want %v", point, line, result, expected)
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package geom2d
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
 
@@ -26,8 +27,9 @@ type Vector2D struct {
 //	v := geom2d.NewVector(3.0, 4.0)
 //	fmt.Println(v)  // Output: [3.0, 4.0]
 func NewVector(x, y float64) *Vector2D {
-	vec := mat.NewVecDense(2, []float64{x, y}) // Create a 2D vector using gonum's NewVecDense
-	return &Vector2D{vec}
+	return &Vector2D{
+		VecDense: mat.NewVecDense(2, []float64{x, y}),
+	}
 }
 
 // NewVectorTwoPoints creates a 2D vector from two points.
@@ -55,5 +57,28 @@ func NewVectorTwoPoints(p1, p2 *Point2D) *Vector2D {
 		p2.At(1, 0) - p1.At(1, 0),
 	}
 	vec := mat.NewVecDense(2, coordinates) // Create a vector with the computed coordinates
-	return &Vector2D{vec}
+
+	return &Vector2D{
+		VecDense: vec,
+	}
+}
+
+// String returns a string representation of the Vector object.
+//
+// Returns:
+//
+//	string: A string representation of the Vector object.
+func (v Vector2D) String() string {
+	return fmt.Sprintf("%v", mat.Formatted(v.VecDense))
+}
+
+// Length calculates the length of the vector.
+//
+// The length is computed as the norm of the vector.
+//
+// Returns:
+//
+//	float64: The length of the vetor.
+func (v Vector2D) Length() float64 {
+	return v.Norm(2)
 }
