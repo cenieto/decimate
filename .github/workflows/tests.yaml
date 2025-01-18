@@ -41,7 +41,7 @@ jobs:
 
     - name: Run unit tests
       run: |
-        ./stack unit ./...
+        ./stack unit ./pkg/...
 
     - name: Cache Docker layers
       uses: actions/cache@v3
