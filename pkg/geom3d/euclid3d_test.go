@@ -32,8 +32,8 @@ func TestGeom3DInstantiation(t *testing.T) {
 // Returns: none
 func TestCrossProduct3D(t *testing.T) {
 
-	fixtureFile := "../../testdata/geom3d/cross-product-3d.csv"  // Updated fixture file path
-	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	fixtureFile := "../../testdata/geom3d/cross-product-3d.csv" // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile)   // Get the CSV float64 reader
 	if err != nil {
 		t.Fatalf("Error while opening CSV file: %v", err)
 	}
@@ -71,8 +71,8 @@ func TestCrossProduct3D(t *testing.T) {
 // Arguments: none
 // Returns: none
 func TestCrossProductNorm(t *testing.T) {
-	fixtureFile := "../../testdata/geom3d/cross-product-3d.csv"  // Updated fixture file path
-	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
+	fixtureFile := "../../testdata/geom3d/cross-product-3d.csv" // Updated fixture file path
+	reader, err := testutils.NewCSVFloat64Reader(fixtureFile)   // Get the CSV float64 reader
 	if err != nil {
 		t.Fatalf("Error while opening CSV file: %v", err)
 	}
@@ -108,7 +108,7 @@ func TestCrossProductNorm(t *testing.T) {
 // // Arguments: none
 // // Returns: none
 func TestDoubleAreaTriangle(t *testing.T) {
-	fixtureFile := "../../testdata/geom3d/point-line-3d.csv"     // Updated fixture file path
+	fixtureFile := "../../testdata/geom3d/point-line-3d.csv"  // Updated fixture file path
 	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
 	if err != nil {
 		t.Fatalf("Error while opening CSV file: %v", err)
@@ -145,7 +145,7 @@ func TestDoubleAreaTriangle(t *testing.T) {
 // // Arguments: none
 // // Returns: none
 func TestDistancePointLine(t *testing.T) {
-	fixtureFile := "../../testdata/geom3d/point-line-3d.csv"     // Updated fixture file path
+	fixtureFile := "../../testdata/geom3d/point-line-3d.csv"  // Updated fixture file path
 	reader, err := testutils.NewCSVFloat64Reader(fixtureFile) // Get the CSV float64 reader
 	if err != nil {
 		t.Fatalf("Error while opening CSV file: %v", err)

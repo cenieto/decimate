@@ -1,6 +1,7 @@
 package geom3d
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
 
@@ -60,4 +61,13 @@ func NewVectorTwoPoints(p1, p2 *Point3D) *Vector3D {
 	}
 	vec := mat.NewVecDense(3, coordinates) // Create a vector with the computed coordinates
 	return &Vector3D{vec}
+}
+
+// String returns a string representation of the Vector object.
+//
+// Returns:
+//
+//	string: A string representation of the Vector object.
+func (v Vector3D) String() string {
+	return fmt.Sprintf("%v", mat.Formatted(v.VecDense))
 }

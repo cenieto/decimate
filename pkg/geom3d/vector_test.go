@@ -4,6 +4,8 @@ import (
 	"decimator/pkg/testutils"
 	"gonum.org/v1/gonum/mat"
 	"testing"
+
+	"fmt"
 )
 
 // TestNewVector validates the creation of a Vector3D using NewVector.
@@ -20,7 +22,7 @@ func TestNewVector(t *testing.T) {
 	expected := mat.NewVecDense(3, input)
 
 	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
-		t.Errorf("NewVector(%v) = %v; want %v", input, mat.Formatted(result), mat.Formatted(expected))
+		t.Errorf("NewVector(%v) = %v; want %v", input, result.String(), mat.Formatted(expected))
 	}
 }
 
@@ -40,6 +42,25 @@ func TestNewVectorTwoPoints(t *testing.T) {
 	expected := mat.NewVecDense(3, []float64{1.0, -1.0, 0.0})
 
 	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
-		t.Errorf("NewVectorTwoPoints(%v, %v) = %v; want %v", mat.Formatted(p1), mat.Formatted(p2), mat.Formatted(result), mat.Formatted(expected))
+		t.Errorf("NewVectorTwoPoints(%v, %v) = %v; want %v", p1, p2, result, mat.Formatted(expected))
+	}
+}
+
+// TestVectorString validates the string representation of a Vector2D.
+//
+// This test checks if the string representation of a Vector2D matches the
+// expected format.
+//
+// Arguments:
+//
+//	t (*testing.T): The testing context provided by the Go testing framework.
+func TestVectorString(t *testing.T) {
+	vector := NewVector(0.0, 1.0, 2.0)
+
+	result := vector.String()
+	expected := fmt.Sprintf("%v", mat.Formatted(vector.VecDense))
+
+	if result != expected {
+		t.Errorf("vector.String() = %v; want %v", result, expected)
 	}
 }

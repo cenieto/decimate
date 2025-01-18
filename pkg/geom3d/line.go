@@ -1,6 +1,7 @@
 package geom3d
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
 
@@ -21,8 +22,10 @@ type Line3D struct {
 //
 //	*Line3D: A pointer to the newly created Line3D object.
 func NewLine(pa, pb *Point3D) *Line3D {
-	line := Line3D{Point1: pa, Point2: pb}
-	return &line
+	return &Line3D{
+		Point1: pa,
+		Point2: pb,
+	}
 }
 
 // VectorDirector calculates the direction vector of the line.
@@ -37,4 +40,15 @@ func (l Line3D) VectorDirector() *Vector3D {
 	result.SubVec(l.Point2, l.Point1) // Calculate Point2 - Point1
 	vector := NewVector(result.At(0, 0), result.At(1, 0), result.At(2, 0))
 	return vector
+}
+
+// Length calculates the length of the line.
+//
+// The length is computed as the norm of the direction vector.
+//
+// Returns:
+//
+//	float64: The length of the line.
+func (l Line3D) String() string {
+	return fmt.Sprintf("Line3D(%s, %s)", l.Point1, l.Point2)
 }
