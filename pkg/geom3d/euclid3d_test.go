@@ -167,7 +167,7 @@ func TestDistancePointLine(t *testing.T) {
 		line := NewLine(point_origin_line, point_end_line)
 
 		result := geom.DistancePointLine(point, line)
-		expected := values[0]
+		expected := values[10]
 
 		// Check if the result is approximately equal to the expected magnitude
 		if !mat.EqualApprox(mat.NewVecDense(1, []float64{result}), mat.NewVecDense(1, []float64{expected}), testutils.TestToleranceRelative) {
