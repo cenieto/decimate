@@ -176,3 +176,49 @@ func TestDistancePointLine(t *testing.T) {
 		}
 	}
 }
+
+// TestNewPointFromEuclid2D validates the creation of a Point2D using NewPoint.
+// This test checks if the Point2D created by NewPoint matches the expected 2D vector representation.
+// Arguments: none
+// Returns: none
+func TestNewPointFromEuclid2D(t *testing.T) {
+	input := []float64{0.0, 1.0}
+	geometry := NewEuclid()
+	result := geometry.NewPoint(input[0], input[1])
+	expected := NewPoint(0.0, 1.0)
+	
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
+		t.Errorf("NewPoint(%v) = %v; want %v", input, mat.Formatted(result), mat.Formatted(expected))
+	}
+}
+
+// TestNewVectorFromEuclid2D validates the creation of a Vector2D using NewVector.
+// This test checks if the Vector2D created by NewVector matches the expected 2D vector representation.
+// Arguments: none
+// Returns: none
+func TestNewVectorFromEuclid2D(t *testing.T) {
+	input := []float64{0.0, 1.0}
+	geometry := NewEuclid()
+	result := geometry.NewVector(input[0], input[1])
+	expected := NewVector(0.0, 1.0)
+	
+	if !mat.EqualApprox(expected, result, testutils.TestToleranceRelative) {
+		t.Errorf("NewVector(%v) = %v; want %v", input, mat.Formatted(result), mat.Formatted(expected))
+	}
+}
+
+// TestNewLineFromEuclid2D validates the creation of a Line2D using NewLine.
+// This test checks if the Line2D created by NewLine matches the expected 2D line representation.
+// Arguments: none
+// Returns: none
+func TestNewLineFromEuclid2D(t *testing.T) {
+	point1 := NewPoint(0.0, 1.0)
+	point2 := NewPoint(1.0, 0.0)
+	geometry := NewEuclid()
+	result := geometry.NewLine(point1, point2)
+	expected := NewLine(point1, point2)
+	
+	if result.Point1 != expected.Point1 || result.Point2 != expected.Point2 {
+		t.Errorf("NewLine(%v, %v) = %v; want %v", point1, point2, result, expected)
+	}
+}

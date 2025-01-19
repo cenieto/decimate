@@ -65,7 +65,6 @@ func TestVectorString(t *testing.T) {
 	}
 }
 
-
 // TestLength validates the calculation of the length of a Vector2D.
 //
 // This test checks if the length calculated by Length matches the expected value.

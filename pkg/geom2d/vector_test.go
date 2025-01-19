@@ -64,7 +64,6 @@ func TestVectorString(t *testing.T) {
 	}
 }
 
-
 // TestLength validates the calculation of the length of a Vector2D.
 //
 // This test checks if the length calculated by Length matches the expected value.
@@ -73,7 +72,7 @@ func TestVectorString(t *testing.T) {
 //
 //	t (*testing.T): The testing context provided by the Go testing framework.
 func TestVectorLength(t *testing.T) {
-	vector := NewVector(1.0,1.0)
+	vector := NewVector(1.0, 1.0)
 
 	result := vector.Length()
 	expected := 1.4142135623730951
