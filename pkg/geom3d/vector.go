@@ -73,7 +73,6 @@ func (v Vector3D) String() string {
 	return fmt.Sprintf("%v", mat.Formatted(v.VecDense))
 }
 
-
 // Length calculates the length of the vector.
 //
 // The length is computed as the norm of the vector.

@@ -7,6 +7,9 @@ import (
 // Euclid2D represents a 2D geometric system.
 // It provides the necessary methods to perform 2D geometric operations such as cross product and distance calculations.
 type Euclid2D struct {
+	Point2D
+	Vector2D
+	Line2D
 }
 
 // NewEuclid creates and returns a new instance of Euclid2D.
@@ -89,4 +92,40 @@ func (g Euclid2D) DistancePointLine(point *Point2D, line *Line2D) float64 {
 	numerator := g.DoubleAreaTriangle(point, line)
 	denominator := line.VectorDirector().Length()
 	return numerator / denominator
+}
+
+// NewPoint creates a new Point2D instance.
+//
+// Parameters:
+//   - x (float64): The x-coordinate of the point.
+//   - y (float64): The y-coordinate of the point.
+//
+// Returns:
+//   - *Point2D: A pointer to the newly created Point2D object.
+func (g Euclid2D) NewPoint(x, y float64) *Point2D {
+    return NewPoint(x, y)
+}
+
+// NewVector creates a new Vector2D instance.
+//
+// Parameters:
+//   - x (float64): The x-component of the vector.
+//   - y (float64): The y-component of the vector.
+//
+// Returns:
+//   - *Vector2D: A pointer to the newly created Vector2D object.
+func (g Euclid2D) NewVector(x, y float64) *Vector2D {
+	return NewVector(x, y)
+}
+
+// NewLine creates a new Line2D instance.
+//
+// Parameters:
+//   - pa (*Point2D): The first point defining the line.
+//   - pb (*Point2D): The second point defining the line.
+//
+// Returns:
+//   - *Line2D: A pointer to the newly created Line2D object.
+func (g Euclid2D) NewLine(pa, pb *Point2D) *Line2D {
+	return NewLine(pa, pb)
 }

@@ -86,3 +86,39 @@ func (g Euclid3D) DistancePointLine(point *Point3D, line *Line3D) float64 {
 	denominator := line.Length()
 	return numerator / denominator
 }
+
+// NewPoint creates a new Point3D instance.
+//
+// Parameters:
+//   - x (float64): The x-coordinate of the point.
+//   - y (float64): The y-coordinate of the point.
+//
+// Returns:
+//   - *Point3D: A pointer to the newly created Point3D object.
+func (g Euclid3D) NewPoint(x, y, z float64) *Point3D {
+    return NewPoint(x, y, z)
+}
+
+// NewVector creates a new Vector3D instance.
+//
+// Parameters:
+//   - x (float64): The x-component of the vector.
+//   - y (float64): The y-component of the vector.
+//
+// Returns:
+//   - *Vector3D: A pointer to the newly created Vector3D object.
+func (g Euclid3D) NewVector(x, y, z float64) *Vector3D {
+	return NewVector(x, y, z)
+}
+
+// NewLine creates a new Line3D instance.
+//
+// Parameters:
+//   - pa (*Point3D): The first point defining the line.
+//   - pb (*Point3D): The second point defining the line.
+//
+// Returns:
+//   - *Line3D: A pointer to the newly created Line3D object.
+func (g Euclid3D) NewLine(pa, pb *Point3D) *Line3D {
+	return NewLine(pa, pb)
+}

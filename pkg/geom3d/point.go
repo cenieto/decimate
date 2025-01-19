@@ -23,7 +23,7 @@ type Point3D struct {
 //	*Point3D: A pointer to the newly created Point3D, which contains a 3D vector.
 func NewPoint(x, y, z float64) *Point3D {
 	return &Point3D{
-			VecDense: mat.NewVecDense(3, []float64{x, y, z}),
+		VecDense: mat.NewVecDense(3, []float64{x, y, z}),
 	}
 }
 
