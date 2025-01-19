@@ -18,3 +18,16 @@ type Point interface {
 	Dimension() int
 	At(int, int) float64
 }
+
+type Line interface {
+	String() string
+	VectorDirector() *mat.VecDense
+	Length() float64
+}
+
+type Vector interface {
+	String() string
+	Dimension() int
+	Norm(int) float64
+	At(int, int) float64
+}
