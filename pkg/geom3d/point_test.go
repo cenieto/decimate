@@ -2,10 +2,9 @@ package geom3d
 
 import (
 	"decimator/pkg/testutils"
+	"fmt"
 	"gonum.org/v1/gonum/mat"
 	"testing"
-
-	"fmt"
 )
 
 // TestNewPoint validates the creation of a Point3D using NewPoint.

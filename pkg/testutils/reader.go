@@ -2,11 +2,18 @@ package testutils
 
 import (
 	"encoding/csv"
-	"io"
+	"errors"
 	"os"
 	"strconv"
 	"strings"
+	"io"
 )
+
+// LineData represents a single line in the CSV file, including its line number and content.
+type LineData struct {
+	LineNumber int       // Line number in the CSV file (starting from 1)
+	Content    []float64 // Parsed content of the line as a slice of float64
+}
 
 // CSVFloat64Reader reads a CSV file and returns a slice of float64 values for each line.
 type CSVFloat64Reader struct {
@@ -35,28 +42,66 @@ func NewCSVFloat64Reader(filePath string) (*CSVFloat64Reader, error) {
 	return &CSVFloat64Reader{reader: reader, file: file, header: header}, nil
 }
 
-// Read reads the next line from the CSV file and returns a slice of float64 values.
-// Arguments: none
+// ReadLines reads the CSV file and returns a channel to iterate over the rows.
+//
 // Returns:
-//   - ([]float64, error): A slice of float64 values and an error if any.
-func (r *CSVFloat64Reader) Read() ([]float64, error) {
-	line, err := r.reader.Read()
-	if err != nil {
-		if err == io.EOF {
-			r.file.Close()
-			return nil, err
-		}
-		return nil, err
-	}
+//
+//	(<-chan []float64, <-chan error): Two channels, one for the parsed rows as slices of float64,
+//	and one for potential errors during reading.
+func (r *CSVFloat64Reader) ReadLines() (<-chan []float64, <-chan error) {
+	linesChannel := make(chan []float64)
+	errorsChannel := make(chan error)
 
-	var values []float64
-	for _, v := range line {
-		v = strings.TrimSpace(v)
-		value, err := strconv.ParseFloat(v, 64)
-		if err != nil {
-			return nil, err
+	go func() {
+		defer close(linesChannel)
+		defer close(errorsChannel)
+
+		lineNumber := 1
+		for {
+			line, err := r.reader.Read()
+
+			// Handle end of file
+			if err == io.EOF {
+				break
+			}
+
+			if err != nil {
+				if errors.Is(err, csv.ErrFieldCount) {
+					errorsChannel <- err
+					return
+				}
+				break
+			}
+
+			if len(line) == 0 {
+				continue
+			}
+			lineNumber++
+			// Check if the line has the same number of elements as the header
+			if len(line) != len(r.header) {
+				errorsChannel <- errors.New(
+					"line " + strconv.Itoa(lineNumber) + " does not match the header column count",
+				)
+				return
+			}
+			// TODO add test for this
+
+			var values []float64
+			for _, v := range line {
+				v = strings.TrimSpace(v)
+				value, convErr := strconv.ParseFloat(v, 64)
+				if convErr != nil {
+					errorsChannel <- errors.New(
+						"error parsing float on line " + strconv.Itoa(lineNumber) + ": " + convErr.Error(),
+					)
+					return
+				}
+				values = append(values, value)
+			}
+			linesChannel <- values
+
 		}
-		values = append(values, value)
-	}
-	return values, nil
+	}()
+
+	return linesChannel, errorsChannel
 }

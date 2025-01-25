@@ -96,7 +96,7 @@ func (g Euclid3D) DistancePointLine(point *Point3D, line *Line3D) float64 {
 // Returns:
 //   - *Point3D: A pointer to the newly created Point3D object.
 func (g Euclid3D) NewPoint(x, y, z float64) *Point3D {
-    return NewPoint(x, y, z)
+	return NewPoint(x, y, z)
 }
 
 // NewVector creates a new Vector3D instance.

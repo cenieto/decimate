@@ -1,6 +1,7 @@
 package geom3d
 
 import (
+	"decimator/pkg/interfaces"
 	"fmt"
 	"gonum.org/v1/gonum/mat"
 )
@@ -11,6 +12,9 @@ import (
 type Vector3D struct {
 	*mat.VecDense
 }
+
+// Ensure Vector3D implements interfaces.Vector
+var _ interfaces.Vector = (*Vector3D)(nil)
 
 // NewVector creates and returns a new 3D vector as a Vector3D.
 // The function takes two floating-point values that represent the x and y components of the vector.
@@ -82,4 +86,9 @@ func (v Vector3D) String() string {
 //	float64: The length of the vector.
 func (v Vector3D) Length() float64 {
 	return v.Norm(2)
+}
+
+// Implement the required methods for interfaces.Vector
+func (v *Vector3D) Dimension() int {
+	return 3
 }
