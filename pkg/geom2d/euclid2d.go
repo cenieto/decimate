@@ -47,7 +47,6 @@ func (g Euclid2D) CrossProduct(v1, v2 *primitives.Vector) *primitives.Vector {
 		errorMsg = fmt.Sprintf("CrossProduct in Euclid2D only accepts 2D vectors.\n %s", errorMsg)
 		panic(errorMsg)
 	}
-	// TODO add test for this
 
 	result := []float64{
 		0.0,
@@ -79,7 +78,6 @@ func (g Euclid2D) CrossProductNorm(v1, v2 *primitives.Vector) float64 {
 		errorMsg = fmt.Sprintf("CrossProduct in Euclid2D only accepts 2D vectors.\n %s", errorMsg)
 		panic(errorMsg)
 	}
-	// TODO add test for this
 
 	crossProduct := g.CrossProduct(v1, v2)
 	result := crossProduct.Length()
@@ -97,8 +95,6 @@ func (g Euclid2D) CrossProductNorm(v1, v2 *primitives.Vector) float64 {
 // Returns:
 //   - float64: The double of the triangle's area.
 func (g Euclid2D) DoubleAreaTriangle(point *primitives.Point, line *primitives.Line) float64 {
-	// TODO check dimensions of inputs
-	// TODO add test for this
 
 	lineToPoint := primitives.NewVectorTwoPoints(point, line.Point1)
 	vectorDirector := line.VectorDirector()
@@ -117,8 +113,6 @@ func (g Euclid2D) DoubleAreaTriangle(point *primitives.Point, line *primitives.L
 // Returns:
 //   - float64: The shortest distance from the point to the line.
 func (g Euclid2D) DistancePointLine(point *primitives.Point, line *primitives.Line) float64 {
-	// TODO check dimensions of inputs
-	// TODO add test for this
 
 	numerator := g.DoubleAreaTriangle(point, line)
 	denominator := line.VectorDirector().Length()
