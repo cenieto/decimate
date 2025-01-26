@@ -3,7 +3,7 @@ package geom2d
 import (
 	"decimator/pkg/primitives"
 	"decimator/pkg/testutils"
-	"fmt"
+	// "fmt"
 	"gonum.org/v1/gonum/mat"
 	"testing"
 )
@@ -36,13 +36,12 @@ func TestCrossProduct2D(t *testing.T) {
 		t.Fatalf("Error while opening CSV file: %v", err)
 	}
 
-	lines, _ := reader.ReadLines()
-	// if errors != nil {
-	// 	t.Fatalf("Error while reading CSV file: %v", errors)
-	// }
+	lines, errors := reader.ReadLines()
 
 	for values := range lines {
-		fmt.Println(values)
+		// if errors != nil {
+		// 	t.Fatalf("Error while reading CSV file: %v", errors)
+		// }
 
 		expected := mat.NewVecDense(3, []float64{values[6], values[7], values[8]}) // Expected result for the cross product
 

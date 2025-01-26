@@ -3,19 +3,28 @@ package testutils
 import (
 	"encoding/csv"
 	"errors"
+	"io"
 	"os"
 	"strconv"
 	"strings"
-	"io"
 )
 
 // LineData represents a single line in the CSV file, including its line number and content.
+// Fields:
+//   - LineNumber (int): Line number in the CSV file (starting from 1).
+//   - Values ([]float64): Parsed content of the line as a slice of float64.
+//   - Err (error): Error encountered while parsing the line.
 type LineData struct {
 	LineNumber int       // Line number in the CSV file (starting from 1)
-	Content    []float64 // Parsed content of the line as a slice of float64
+	Values     []float64 // Parsed content of the line as a slice of float64
+	Err        error     // Error encountered while parsing the line
 }
 
 // CSVFloat64Reader reads a CSV file and returns a slice of float64 values for each line.
+// Fields:
+//   - reader (*csv.Reader): The CSV reader for the file.
+//   - file (*os.File): The file being read.
+//   - header ([]string): The header row of the CSV file.
 type CSVFloat64Reader struct {
 	reader *csv.Reader
 	file   *os.File
@@ -43,18 +52,13 @@ func NewCSVFloat64Reader(filePath string) (*CSVFloat64Reader, error) {
 }
 
 // ReadLines reads the CSV file and returns a channel to iterate over the rows.
-//
 // Returns:
-//
-//	(<-chan []float64, <-chan error): Two channels, one for the parsed rows as slices of float64,
-//	and one for potential errors during reading.
-func (r *CSVFloat64Reader) ReadLines() (<-chan []float64, <-chan error) {
-	linesChannel := make(chan []float64)
-	errorsChannel := make(chan error)
+//   - (<-chan LineData): A channel that emits LineData for each row in the file.
+func (r *CSVFloat64Reader) ReadLines() <-chan LineData {
+	result := make(chan LineData)
 
 	go func() {
-		defer close(linesChannel)
-		defer close(errorsChannel)
+		defer close(result)
 
 		lineNumber := 1
 		for {
@@ -67,7 +71,11 @@ func (r *CSVFloat64Reader) ReadLines() (<-chan []float64, <-chan error) {
 
 			if err != nil {
 				if errors.Is(err, csv.ErrFieldCount) {
-					errorsChannel <- err
+					result <- LineData{
+						LineNumber: lineNumber,
+						Values:     []float64{0.0},
+						Err:        err,
+					}
 					return
 				}
 				break
@@ -76,32 +84,40 @@ func (r *CSVFloat64Reader) ReadLines() (<-chan []float64, <-chan error) {
 			if len(line) == 0 {
 				continue
 			}
-			lineNumber++
+
 			// Check if the line has the same number of elements as the header
 			if len(line) != len(r.header) {
-				errorsChannel <- errors.New(
-					"line " + strconv.Itoa(lineNumber) + " does not match the header column count",
-				)
+				result <- LineData{
+					LineNumber: lineNumber,
+					Values:     nil,
+					Err:        errors.New("line " + strconv.Itoa(lineNumber) + " does not match the header column count"),
+				}
 				return
 			}
-			// TODO add test for this
 
 			var values []float64
 			for _, v := range line {
 				v = strings.TrimSpace(v)
 				value, convErr := strconv.ParseFloat(v, 64)
 				if convErr != nil {
-					errorsChannel <- errors.New(
-						"error parsing float on line " + strconv.Itoa(lineNumber) + ": " + convErr.Error(),
-					)
+					result <- LineData{
+						LineNumber: lineNumber,
+						Values:     nil,
+						Err:        errors.New("error parsing float on line " + strconv.Itoa(lineNumber) + ": " + convErr.Error()),
+					}
 					return
 				}
 				values = append(values, value)
 			}
-			linesChannel <- values
+			lineNumber++
+			result <- LineData{
+				LineNumber: lineNumber,
+				Values:     values,
+				Err:        nil,
+			}
 
 		}
 	}()
 
-	return linesChannel, errorsChannel
+	return result
 }
