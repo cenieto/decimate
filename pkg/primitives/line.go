@@ -35,10 +35,8 @@ func NewLine(pa, pb *Point) *Line {
 //	*Vector2D: A pointer to a Vector2D representing the direction of the line.
 func (l Line) VectorDirector() *Vector {
 	var result mat.VecDense
-	result.SubVec(l.Point2, l.Point1) // Calculate Point2 - Point1
-	vector := NewVector([]float64{
-		result.At(0, 0), result.At(1, 0),
-	})
+	result.SubVec(l.Point2.VecDense, l.Point1.VecDense) // Calculate Point2 - Point1
+	vector := NewVector(result.RawVector().Data)
 	return vector
 }
 
