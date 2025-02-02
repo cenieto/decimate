@@ -39,13 +39,13 @@ jobs:
       run: |
         ./stack install
 
-    - name: Run linter
-      run: |
-        ./stack lint ./pkg/...
-        
     - name: Start test container
       run: |
         ./stack start
+
+    - name: Run linter
+      run: |
+        ./stack lint ./pkg/...
 
     - name: Run unit tests
       run: |
