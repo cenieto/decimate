@@ -14,7 +14,7 @@
 package geom2d
 
 import (
-	"decimate/pkg/primitives"
+	"github.com/cenieto/decimate/pkg/primitives"
 	"fmt"
 )
 

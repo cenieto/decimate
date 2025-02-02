@@ -10,9 +10,16 @@ Decimate is a Go package designed to reduce datasets while preserving essential 
 
 To enable decimation algorithms, several geometric operations are included. The `gonum` package is utilized to facilitate these geometric operations and matrix computations.
 
+## Dependencies
+
+decimate depends on gonum, ensure you have gonum installed:
+```go
+go get gonum.org/v1/gonum/mat
+```
+
 ## Installation
 
-To install Decimate, ensure you have Go installed and run:
+To install decimate, ensure you have Go installed and run:
 
 ```sh
 go get github.com/cenieto/decimator@latest
