@@ -14,8 +14,8 @@
 package geom2d
 
 import (
-	"decimator/pkg/primitives"
-	"decimator/pkg/testutils"
+	"decimate/pkg/primitives"
+	"decimate/pkg/testutils"
 	"gonum.org/v1/gonum/mat"
 	"math"
 	"testing"

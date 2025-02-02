@@ -14,7 +14,7 @@
 package geom2d
 
 import (
-	"decimator/pkg/primitives"
+	"decimate/pkg/primitives"
 	"fmt"
 )
 

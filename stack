@@ -81,7 +81,7 @@ exute_linting(){
 execute_code(){
 	local params=${@}
 
-	docker exec $CONTAINER_NAME bash -c "go run ${params}"
+	docker exec $CONTAINER_NAME bash -c "${params}"
 }
 
 case "$1" in

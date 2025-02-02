@@ -14,7 +14,7 @@
 package primitives
 
 import (
-	"decimator/pkg/testutils"
+	"decimate/pkg/testutils"
 	"fmt"
 	"gonum.org/v1/gonum/mat"
 	"testing"

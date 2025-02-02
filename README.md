@@ -1,5 +1,9 @@
 # Decimate
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/cenieto/decimator.svg)](https://pkg.go.dev/github.com/cenieto/decimator)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/cenieto/decimator)](https://github.com/cenieto/decimator)
+[![Go Report Card](https://goreportcard.com/badge/github.com/cenieto/decimator)](https://goreportcard.com/report/github.com/cenieto/decimator)
+
 ## Overview
 
 Decimate is a Go package designed to reduce datasets while preserving essential information. Currently, it supports operations on 2D and 3D linestrings using Euclidean distance.
