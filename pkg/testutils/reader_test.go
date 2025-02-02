@@ -46,14 +46,14 @@ func TestNewCSVFloat64Reader(t *testing.T) {
 
 	// Verify rows
 	expecteRow := []string{"1.1", "2.2", "3.3"}
-	row, err := reader.reader.Read()
+	row, _ := reader.reader.Read()
 
 	if !reflect.DeepEqual(row, expecteRow) {
 		t.Fatalf("Expected row %v, got %v", expecteRow, row)
 	}
 
 	expecteRow = []string{"2.1", "2.2", "2.3"}
-	row, err = reader.reader.Read()
+	row, _ = reader.reader.Read()
 
 	if !reflect.DeepEqual(row, expecteRow) {
 		t.Fatalf("Expected row %v, got %v", expecteRow, row)

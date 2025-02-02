@@ -73,7 +73,9 @@ install_deps(){
 }
 
 exute_linting(){
-	docker exec $CONTAINER_NAME bash -c "golangci-lint run"
+	local params=${@}
+
+	docker exec $CONTAINER_NAME bash -c "golangci-lint run ${params}"
 }
 
 execute_code(){
@@ -106,7 +108,7 @@ case "$1" in
 		install_deps
 		;;
 	linting)
-		exute_linting
+		exute_linting "${@:2}"
 		;;
 	* | -h | help)
 		usage
