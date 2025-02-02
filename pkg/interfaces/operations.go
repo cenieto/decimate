@@ -1,33 +1,45 @@
+// Copyright 2025 César Nieto Sánchez
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package interfaces
 
-import (
-	"gonum.org/v1/gonum/mat"
-)
+import "gonum.org/v1/gonum/mat"
 
 type Geometry interface {
 	Dimension() int
-	CrossProduct(*mat.VecDense, *mat.VecDense) *mat.VecDense
-	CrossProductNorm(*mat.VecDense, *mat.VecDense) float64
-	DoubleAreaTriangle(*mat.VecDense, *mat.VecDense, *mat.VecDense) float64
-	DistancePointLine(*mat.VecDense, *mat.VecDense, *mat.VecDense) float64
-	NewPoint(float64, float64) *mat.VecDense
+	CrossProduct(Vector, Vector) Vector
+	CrossProductNorm(Vector, Vector) float64
+	DoubleAreaTriangle(Point, Line) float64
+	DistancePointLine(Point, Line) float64
 }
 
 type Point interface {
+	mat.Vector
 	String() string
 	Dimension() int
-	At(int, int) float64
 }
 
 type Line interface {
 	String() string
-	VectorDirector() *mat.VecDense
+	VectorDirector() Vector
 	Length() float64
+	Dimension() int
 }
 
 type Vector interface {
+	mat.Vector
 	String() string
 	Dimension() int
-	Norm(int) float64
+	Length() float64
 	At(int, int) float64
 }

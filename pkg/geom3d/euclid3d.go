@@ -1,4 +1,22 @@
+// Copyright 2025 César Nieto Sánchez
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package geom3d
+
+import (
+	"decimator/pkg/primitives"
+	"fmt"
+)
 
 // Euclid3D represents a 3D geometric system.
 // It provides the necessary methods to perform 3D geometric operations such as cross product and distance calculations.
@@ -25,30 +43,55 @@ func (g Euclid3D) Dimension() int {
 // The Z-component of the resulting 3D vector represents the scalar cross product of the 3D vectors.
 //
 // Parameters:
-//   - v1 (*Vector3D): The first 3D vector to be used in the cross product.
-//   - v2 (*Vector3D): The second 3D vector to be used in the cross product.
+//   - v1 (*primitives.Vector): The first 3D vector to be used in the cross product.
+//   - v2 (*primitives.Vector): The second 3D vector to be used in the cross product.
 //
 // Returns:
-//   - *Vector3D: A 3D vector where the Z-component represents the cross product of the input 3D vectors.
-func (g Euclid3D) CrossProduct(v1, v2 *Vector3D) *Vector3D {
-	result := NewVector(
+//   - *geom3d.Vector3D: A 3D vector where the Z-component represents the cross product of the input 3D vectors.
+func (g Euclid3D) CrossProduct(v1, v2 *primitives.Vector) *primitives.Vector {
+	errorMsg := ""
+	if v1.Dimension() != g.Dimension() {
+		errorMsg += fmt.Sprintf("First vector is not 3D, is of dimension %d\n", v1.Dimension())
+	}
+	if v2.Dimension() != g.Dimension() {
+		errorMsg += fmt.Sprintf("Second vector is not 3D, is of dimension %d\n", v2.Dimension())
+	}
+	if errorMsg != "" {
+		errorMsg = fmt.Sprintf("CrossProduct in Euclid3D only accepts 3D vectors.\n %s", errorMsg)
+		panic(errorMsg)
+	}
+
+	result := []float64{
 		v1.At(1, 0)*v2.At(2, 0)-v1.At(2, 0)*v2.At(1, 0),
 		-v1.At(0, 0)*v2.At(2, 0)+v1.At(2, 0)*v2.At(0, 0),
 		v1.At(0, 0)*v2.At(1, 0)-v1.At(1, 0)*v2.At(0, 0),
-	)
-	return result
+	}
+
+	return primitives.NewVector(result)
 }
 
 // CrossProductNorm computes the magnitude (norm) of the cross product of two 3D vectors.
 // This magnitude corresponds to the area of the parallelogram formed by the vectors.
 //
 // Parameters:
-//   - v1 (*Vector3D): The first 3D vector.
-//   - v2 (*Vector3D): The second 3D vector.
+//   - v1 (*primitives.Vector): The first 3D vector.
+//   - v2 (*primitives.Vector): The second 3D vector.
 //
 // Returns:
 //   - float64: The magnitude (norm) of the cross product.
-func (g Euclid3D) CrossProductNorm(v1, v2 *Vector3D) float64 {
+func (g Euclid3D) CrossProductNorm(v1, v2 *primitives.Vector) float64 {
+	errorMsg := ""
+	if v1.Dimension() != g.Dimension() {
+		errorMsg += fmt.Sprintf("First vector is not 3D, is of dimension %d\n", v1.Dimension())
+	}
+	if v2.Dimension() != g.Dimension() {
+		errorMsg += fmt.Sprintf("Second vector is not 3D, is of dimension %d\n", v2.Dimension())
+	}
+	if errorMsg != "" {
+		errorMsg = fmt.Sprintf("CrossProduct in Euclid3D only accepts 3D vectors.\n %s", errorMsg)
+		panic(errorMsg)
+	}
+
 	crossProduct := g.CrossProduct(v1, v2)
 	result := crossProduct.Length()
 	return result
@@ -64,8 +107,9 @@ func (g Euclid3D) CrossProductNorm(v1, v2 *Vector3D) float64 {
 //
 // Returns:
 //   - float64: The double of the triangle's area.
-func (g Euclid3D) DoubleAreaTriangle(point *Point3D, line *Line3D) float64 {
-	lineToPoint := NewVectorTwoPoints(point, line.Point1)
+func (g Euclid3D) DoubleAreaTriangle(point *primitives.Point, line *primitives.Line) float64 {
+
+	lineToPoint := primitives.NewVectorTwoPoints(point, line.Point1)
 	vectorDirector := line.VectorDirector()
 	numerator := g.CrossProductNorm(lineToPoint, vectorDirector)
 	return numerator
@@ -81,44 +125,9 @@ func (g Euclid3D) DoubleAreaTriangle(point *Point3D, line *Line3D) float64 {
 //
 // Returns:
 //   - float64: The shortest distance from the point to the line.
-func (g Euclid3D) DistancePointLine(point *Point3D, line *Line3D) float64 {
+func (g Euclid3D) DistancePointLine(point *primitives.Point, line *primitives.Line) float64 {
+
 	numerator := g.DoubleAreaTriangle(point, line)
-	denominator := line.Length()
+	denominator := line.VectorDirector().Length()
 	return numerator / denominator
-}
-
-// NewPoint creates a new Point3D instance.
-//
-// Parameters:
-//   - x (float64): The x-coordinate of the point.
-//   - y (float64): The y-coordinate of the point.
-//
-// Returns:
-//   - *Point3D: A pointer to the newly created Point3D object.
-func (g Euclid3D) NewPoint(x, y, z float64) *Point3D {
-    return NewPoint(x, y, z)
-}
-
-// NewVector creates a new Vector3D instance.
-//
-// Parameters:
-//   - x (float64): The x-component of the vector.
-//   - y (float64): The y-component of the vector.
-//
-// Returns:
-//   - *Vector3D: A pointer to the newly created Vector3D object.
-func (g Euclid3D) NewVector(x, y, z float64) *Vector3D {
-	return NewVector(x, y, z)
-}
-
-// NewLine creates a new Line3D instance.
-//
-// Parameters:
-//   - pa (*Point3D): The first point defining the line.
-//   - pb (*Point3D): The second point defining the line.
-//
-// Returns:
-//   - *Line3D: A pointer to the newly created Line3D object.
-func (g Euclid3D) NewLine(pa, pb *Point3D) *Line3D {
-	return NewLine(pa, pb)
 }

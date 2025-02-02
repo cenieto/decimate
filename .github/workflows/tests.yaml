@@ -39,6 +39,14 @@ jobs:
       run: |
         ./stack start
 
+    - name: Install dependencies
+      run: |
+        ./stack install
+
+    - name: Run linter
+      run: |
+        ./stack linting ./pkg/...
+
     - name: Run unit tests
       run: |
         ./stack unit ./pkg/...
