@@ -45,7 +45,7 @@ jobs:
 
     - name: Run linter
       run: |
-        ./stack lint ./pkg/...
+        ./stack linting ./pkg/...
 
     - name: Run unit tests
       run: |
