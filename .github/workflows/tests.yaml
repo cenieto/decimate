@@ -34,7 +34,15 @@ jobs:
         ./stack build
         echo -n "verifying images:"
         docker images
+    
+    - name: Install dependencies
+      run: |
+        ./stack install
 
+    - name: Run linter
+      run: |
+        ./stack lint ./pkg/...
+        
     - name: Start test container
       run: |
         ./stack start

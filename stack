@@ -12,8 +12,13 @@ usage(){
  	printf "\t start \t\t: Deploy container.\n"
  	printf "\t stop \t\t: Destroy container.\n"
  	printf "\t shell \t\t: Open terminal shell inside container.\n"
- 	printf "\t unit \t\t: Run all tests.\n"
+	printf "\t run <params> \t: Run code.\n"
+	printf "\t unit <params> \t: Run unit tests.\n"
  	printf "\t format \t\t: Format all go files.\n"
+	printf "\t install \t\t: Install all dependencies.\n"
+	printf "\t linting \t\t: Run linting.\n"
+
+	exit 1
 }
 
 build_image(){
@@ -63,6 +68,20 @@ format_files(){
 	docker exec $CONTAINER_NAME bash -c "gofmt -w ."
 }
 
+install_deps(){
+	docker exec $CONTAINER_NAME bash -c "go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
+}
+
+exute_linting(){
+	docker exec $CONTAINER_NAME bash -c "golangci-lint run"
+}
+
+execute_code(){
+	local params=${@}
+
+	docker exec $CONTAINER_NAME bash -c "go run ${params}"
+}
+
 case "$1" in
 
     build)
@@ -77,8 +96,17 @@ case "$1" in
 	shell)
 		launch_shell
 		;;
+	run)
+		execute_code "${@:2}"
+		;;
 	format)
 		format_files
+		;;
+	install)
+		install_deps
+		;;
+	linting)
+		exute_linting
 		;;
 	* | -h | help)
 		usage
