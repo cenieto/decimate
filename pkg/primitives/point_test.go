@@ -14,7 +14,7 @@
 package primitives
 
 import (
-	"decimator/pkg/testutils"
+	"github.com/cenieto/decimate/pkg/testutils"
 	"fmt"
 	"gonum.org/v1/gonum/mat"
 	"testing"
