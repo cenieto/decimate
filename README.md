@@ -38,6 +38,8 @@ Currently, no decimation algorithm is implemented, but the example below demonst
 
 The cross product of two 2D vectors can be computed as follows:
 
+TODO: the example is incorrect. Package name is not decimator animore.
+
 ```go
 package main
 
@@ -108,4 +110,5 @@ These workflows are also executed automatically in a GitHub Actions environment 
 ## License
 
 This project is licensed under the Apache 2.0 License. See [LICENSE](LICENSE) for details.
+
 

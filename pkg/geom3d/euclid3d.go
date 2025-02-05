@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,8 @@
 package geom3d
 
 import (
-	"github.com/cenieto/decimate/pkg/primitives"
 	"fmt"
+	"github.com/cenieto/decimate/pkg/primitives"
 )
 
 // Euclid3D represents a 3D geometric system.
@@ -62,9 +62,9 @@ func (g Euclid3D) CrossProduct(v1, v2 *primitives.Vector) *primitives.Vector {
 	}
 
 	result := []float64{
-		v1.At(1, 0)*v2.At(2, 0)-v1.At(2, 0)*v2.At(1, 0),
-		-v1.At(0, 0)*v2.At(2, 0)+v1.At(2, 0)*v2.At(0, 0),
-		v1.At(0, 0)*v2.At(1, 0)-v1.At(1, 0)*v2.At(0, 0),
+		v1.At(1, 0)*v2.At(2, 0) - v1.At(2, 0)*v2.At(1, 0),
+		-v1.At(0, 0)*v2.At(2, 0) + v1.At(2, 0)*v2.At(0, 0),
+		v1.At(0, 0)*v2.At(1, 0) - v1.At(1, 0)*v2.At(0, 0),
 	}
 
 	return primitives.NewVector(result)

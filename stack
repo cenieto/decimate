@@ -60,12 +60,14 @@ launch_shell(){
 }
 
 unit_tests(){
-	local params=${@}
+	local params=${@:-./...}
 	docker exec $CONTAINER_NAME bash -c "go test ${params}"
 }
 
 format_files(){
-	docker exec $CONTAINER_NAME bash -c "gofmt -w ."
+	local params=${@}
+
+	docker exec $CONTAINER_NAME bash -c "gofmt -w -s ${params}"
 }
 
 install_deps(){
@@ -103,7 +105,7 @@ case "$1" in
 		execute_code "${@:2}"
 		;;
 	format)
-		format_files
+		format_files "${@:2}"
 		;;
 	install)
 		install_deps
