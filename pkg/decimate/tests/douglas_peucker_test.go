@@ -15,11 +15,11 @@ package tests
 
 import (
 	"fmt"
-	"testing"
 	"github.com/cenieto/decimate/pkg/geom2d"
+	"testing"
 )
 
-// TestDouglasPeuckerInputCheck tests the input check of the DouglasPeucker function.
+// TestValidateInputPointListOnePoint tests the input check of the ValidateInputPointList function.
 // It checks if the function panics when the input has only one element.
 //
 // Parameters:
@@ -27,33 +27,29 @@ import (
 //
 // Returns:
 //   - None
-func TestDouglasPeuckerInputCheckOnePoint(t *testing.T) {
+func TestValidateInputPointListOnePoint(t *testing.T) {
 	points := [][]float64{
 		{1.0, 2.0},
 	}
 
 	geometry := geom2d.NewEuclid()
 
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("DouglasPeucker() did not panic when input had only one element")
-		}
-	}()
+	errorMsg := geometry.Decimate.ValidateInputPointList(points)
+	if errorMsg != nil {
+		return errors.New("Length of point list must be greater than one")
+	}
 
-	new_points := geometry.Decimate.DouglasPeucker(points)
-
-	fmt.Println(new_points)
 }
 
-// TestDouglasPeuckerInputCheckDifferntDimensions tests the input check of the DouglasPeucker function.
-// It checks if the function panics when the input has points with dimension different to the geometry.
+// TestValidateInputPointListDifferntDimensions tests the input check of the ValidateInputPointList function.
+// It checks if the function panics when the input has points with different dimensions.
 //
 // Parameters:
 //   - t (*testing.T): A testing object used to run tests and check for failures.
 //
 // Returns:
 //   - None
-func TestDouglasPeuckerInputCheckDifferntDimensions(t *testing.T) {
+func TestValidateInputPointListDifferntDimensions(t *testing.T) {
 	points := [][]float64{
 		{1.0, 2.0},
 		{1.0, 2.0, 3.0},
@@ -61,13 +57,10 @@ func TestDouglasPeuckerInputCheckDifferntDimensions(t *testing.T) {
 
 	geometry := geom2d.NewEuclid()
 
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("DouglasPeucker() did not panic when input had points with dimension different to geometry")
-		}
-	}()
+	errorMsg := geometry.Decimate.ValidateInputPointList(points)
 
-	new_points := geometry.Decimate.DouglasPeucker(points)
+	if errorMsg != nil {
+		return errors.New("All points must have the same dimension as the geometry. Point at position %v has dimension %v, but the geometry has dimension %v", i, len(point), d.Geometry.Dimension())
+	}
 
-	fmt.Println(new_points)
 }

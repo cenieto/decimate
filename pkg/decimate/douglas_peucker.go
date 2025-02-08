@@ -15,6 +15,7 @@ package decimate
 
 import (
 	// "gonum.org/v1/gonum/mat"
+	"errors"
 	"fmt"
 	"github.com/cenieto/decimate/pkg/interfaces"
 )
@@ -37,17 +38,22 @@ func NewDecimate(geometry interfaces.Geometry) *Decimate {
 	}
 }
 
-func (d Decimate) DouglasPeucker(points [][]float64) [][]float64 {
-	// var distance float64
-	// var distance_maximum float64
-	// distance_maximum = 0.0
+// ValidateInputPointList validates the input point list.
+//
+// Parameters:
+//   - points ([][]float64): The list of points to be validated.
+//
+// Returns:
+//   - error: An error if the input point list is not valid.
+//   - nil: If the input point list is valid.
+func (d Decimate) ValidateInputPointList(points [][]float64) error {
 
 	errorMsg := ""
 	size_points := len(points)
 	if size_points < 2 {
-		errorMsg += "Length of point list must be greater than one\n"
+		return errors.New("Length of point list must be greater than one")
 	}
-	
+
 	if len(points) > 1 {
 		for i, point := range points {
 			if len(point) != d.Geometry.Dimension() {
@@ -57,6 +63,21 @@ func (d Decimate) DouglasPeucker(points [][]float64) [][]float64 {
 	}
 
 	if errorMsg != "" {
+		return errors.New(errorMsg)
+	}
+
+	return nil
+
+}
+
+func (d Decimate) DouglasPeucker(points [][]float64) [][]float64 {
+	// var distance float64
+	// var distance_maximum float64
+	// distance_maximum = 0.0
+
+	errorMsg := d.ValidateInputPointList(points)
+
+	if errorMsg != nil {
 		panic(errorMsg)
 	}
 
