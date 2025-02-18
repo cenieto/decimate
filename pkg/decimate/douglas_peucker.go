@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cenieto/decimate/pkg/interfaces"
+	"github.com/cenieto/decimate/pkg/primitives"
 )
 
 // Decimate is a struct that represents a decimate operation.
@@ -49,10 +50,12 @@ func NewDecimate(geometry interfaces.Geometry) *Decimate {
 func (d Decimate) ValidateInputPointList(points [][]float64) error {
 
 	errorMsg := ""
-	size_points := len(points)
-	if size_points < 2 {
-		return errors.New("Length of point list must be greater than one")
-	}
+	// size_points := len(points)
+	// if size_points < 2 {
+	// 	errorMsg += fmt.Sprintf("Length of point list must be greater than one and is %v, %v", size_points, points)
+	// 	return errors.New(errorMsg)
+	// }
+	// return nil
 
 	if len(points) > 1 {
 		for i, point := range points {
@@ -70,10 +73,15 @@ func (d Decimate) ValidateInputPointList(points [][]float64) error {
 
 }
 
-func (d Decimate) DouglasPeucker(points [][]float64) [][]float64 {
-	// var distance float64
-	// var distance_maximum float64
-	// distance_maximum = 0.0
+// DouglasPeucker is a function that simplifies a list of points using the Douglas-Peucker algorithm.
+//
+// Parameters:
+//   - points ([][]float64): The list of points to be simplified.
+//   - threshold (float64): The threshold to be used in the simplification.
+//
+// Returns:
+//   - [][]float64: The simplified list of points.
+func (d Decimate) DouglasPeucker(points [][]float64, threshold float64) [][]float64 {
 
 	errorMsg := d.ValidateInputPointList(points)
 
@@ -81,24 +89,38 @@ func (d Decimate) DouglasPeucker(points [][]float64) [][]float64 {
 		panic(errorMsg)
 	}
 
-	// // TODO add test to check return when only to points are given
-	// if size_points == 2 {
-	// 	return points
-	// }
+	if len(points) == 2 {
+		return points
+	}
 
-	// dimension := points[0].Dimension()
-	// if dimension != 2 {
-	// 	geometry = interfaces.NewGeometry(dimension)
-	// }
+	var distance float64
+	distance_maximum := 0.0
 
-	// var index int
-	// for i := 1; i < size_points; i++ {
-	// 	distance = PerpendicularDistance(points[i], points[0], points[size_points-1])
-	// 	if distance > distance_maximum {
-	// 		index = i
-	// 		distance_maximum = distance
-	// 	}
-	// }
+	size_points := len(points)
+	point_1 := primitives.NewPoint(points[0])
+	point_2 := primitives.NewPoint(points[size_points-1])
+	line := primitives.NewLine(point_1, point_2)
 
-	return points
+	var index int
+	for i := range points {
+		if i != 0 && i != size_points-1 {
+			point_0 := primitives.NewPoint(points[i])
+			distance = d.Geometry.DoubleAreaTriangle(point_0, line)
+			if distance > distance_maximum {
+				distance_maximum = distance
+				index = i
+			}
+		}
+	}
+
+	point_0 := primitives.NewPoint(points[index])
+	distance_maximum = d.Geometry.DistancePointLine(point_0, line)
+
+	if distance_maximum < threshold {
+		return [][]float64{points[0], points[size_points-1]}
+	} else {
+		left := d.DouglasPeucker(points[:index+1], threshold)
+		right := d.DouglasPeucker(points[index:], threshold)
+		return append(left[:len(left)-1], right...)
+	}
 }
