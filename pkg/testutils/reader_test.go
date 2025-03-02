@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -181,5 +181,39 @@ func TestReadLinesErrParseValue(t *testing.T) {
 	expected := string("error parsing float on line 1: strconv.ParseFloat: parsing \"a\": invalid syntax")
 	if errors[0].Error() != expected {
 		t.Fatalf("Expected \"%v\", got \"%v\"", expected, errors[0].Error())
+	}
+}
+
+// TestNewTestDataReader tests the NewTestDataReader function.
+// This test ensures that the function correctly reads a JSON file and returns
+// its content as a map. It validates the parsed data against the expected data.
+//
+// Steps:
+// 1. Open a test JSON file.
+// 2. Use NewTestDataReader to parse the file's content.
+// 3. Verify the parsed data matches the expected data.
+//
+// Arguments: none
+// Returns: none
+func TestJSONTestDataReader(t *testing.T) {
+	fixtureFile := "../../testdata/testutils/reader-test-data-reader.json"
+	data, err := JSONTestDataReader(fixtureFile)
+	if err != nil {
+		t.Fatalf("Error while opening JSON file: %v", err)
+	}
+
+	var expected JSONTestData
+	expected.Input = [][]float64{
+		{0, 1},
+	}
+	expected.Expected = []ExpectedData{
+		{
+			Epsilon: 0.0001,
+			Data:    [][]float64{{0, 1}},
+		},
+	}
+
+	if !reflect.DeepEqual(*data, expected) {
+		t.Fatalf("Expected data %v, got %v", expected, *data)
 	}
 }

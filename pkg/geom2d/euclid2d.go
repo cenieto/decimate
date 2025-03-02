@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,21 +14,25 @@
 package geom2d
 
 import (
-	"github.com/cenieto/decimate/pkg/primitives"
 	"fmt"
+	"github.com/cenieto/decimate/pkg/decimate"
+	"github.com/cenieto/decimate/pkg/primitives"
 )
 
 // Euclid2D represents a 2D geometric system.
 // It provides the necessary methods to perform 2D geometric operations such as cross product and distance calculations.
 type Euclid2D struct {
+	Decimate *decimate.Decimate
 }
 
 // NewEuclid creates and returns a new instance of Euclid2D.
 //
 // Returns:
 //   - Euclid2D: A new instance of the 2D geometry system.
-func NewEuclid() Euclid2D {
-	return Euclid2D{}
+func NewEuclid() *Euclid2D {
+	e := &Euclid2D{}
+	e.Decimate = decimate.NewDecimate(*e)
+	return e
 }
 
 // Dimension returns the dimension of the geometry system.

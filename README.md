@@ -3,6 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/cenieto/decimator.svg)](https://pkg.go.dev/github.com/cenieto/decimator)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/cenieto/decimator)](https://github.com/cenieto/decimator)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cenieto/decimator)](https://goreportcard.com/report/github.com/cenieto/decimator)
+[![Go Reference](https://pkg.go.dev/badge/github.com/cenieto/decimate.svg)](https://pkg.go.dev/github.com/cenieto/decimate)
 
 ## Overview
 
@@ -36,6 +37,8 @@ import "github.com/cenieto/decimator"
 Currently, no decimation algorithm is implemented, but the example below demonstrates a 2D operation on vectors. Additional examples can be found in the test implementations.
 
 The cross product of two 2D vectors can be computed as follows:
+
+TODO: the example is incorrect. Package name is not decimator animore.
 
 ```go
 package main
@@ -107,4 +110,5 @@ These workflows are also executed automatically in a GitHub Actions environment 
 ## License
 
 This project is licensed under the Apache 2.0 License. See [LICENSE](LICENSE) for details.
+
 
