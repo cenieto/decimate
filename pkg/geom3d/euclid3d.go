@@ -15,20 +15,24 @@ package geom3d
 
 import (
 	"fmt"
+	"github.com/cenieto/decimate/pkg/decimate"
 	"github.com/cenieto/decimate/pkg/primitives"
 )
 
 // Euclid3D represents a 3D geometric system.
 // It provides the necessary methods to perform 3D geometric operations such as cross product and distance calculations.
 type Euclid3D struct {
+	Decimate *decimate.Decimate
 }
 
 // NewEuclid creates and returns a new instance of Euclid3D.
 //
 // Returns:
 //   - Euclid3D: A new instance of the 3D geometry system.
-func NewEuclid() Euclid3D {
-	return Euclid3D{}
+func NewEuclid() *Euclid3D {
+	e := &Euclid3D{}
+	e.Decimate = decimate.NewDecimate(*e)
+	return e
 }
 
 // Dimension returns the dimension of the geometry system.

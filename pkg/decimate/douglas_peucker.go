@@ -14,7 +14,6 @@
 package decimate
 
 import (
-	// "gonum.org/v1/gonum/mat"
 	"errors"
 	"fmt"
 	"github.com/cenieto/decimate/pkg/interfaces"
@@ -118,9 +117,9 @@ func (d Decimate) DouglasPeucker(points [][]float64, threshold float64) [][]floa
 
 	if distance_maximum < threshold {
 		return [][]float64{points[0], points[size_points-1]}
-	} else {
-		left := d.DouglasPeucker(points[:index+1], threshold)
-		right := d.DouglasPeucker(points[index:], threshold)
-		return append(left[:len(left)-1], right...)
 	}
+	left := d.DouglasPeucker(points[:index+1], threshold)
+	right := d.DouglasPeucker(points[index:], threshold)
+	return append(left[:len(left)-1], right...)
+
 }

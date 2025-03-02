@@ -183,3 +183,37 @@ func TestReadLinesErrParseValue(t *testing.T) {
 		t.Fatalf("Expected \"%v\", got \"%v\"", expected, errors[0].Error())
 	}
 }
+
+// TestNewTestDataReader tests the NewTestDataReader function.
+// This test ensures that the function correctly reads a JSON file and returns
+// its content as a map. It validates the parsed data against the expected data.
+//
+// Steps:
+// 1. Open a test JSON file.
+// 2. Use NewTestDataReader to parse the file's content.
+// 3. Verify the parsed data matches the expected data.
+//
+// Arguments: none
+// Returns: none
+func TestJSONTestDataReader(t *testing.T) {
+	fixtureFile := "../../testdata/testutils/reader-test-data-reader.json"
+	data, err := JSONTestDataReader(fixtureFile)
+	if err != nil {
+		t.Fatalf("Error while opening JSON file: %v", err)
+	}
+
+	var expected JSONTestData
+	expected.Input = [][]float64{
+		{0, 1},
+	}
+	expected.Expected = []ExpectedData{
+		{
+			Epsilon: 0.0001,
+			Data:    [][]float64{{0, 1}},
+		},
+	}
+
+	if !reflect.DeepEqual(*data, expected) {
+		t.Fatalf("Expected data %v, got %v", expected, *data)
+	}
+}

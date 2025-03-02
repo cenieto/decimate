@@ -15,8 +15,10 @@ package testutils
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -133,4 +135,41 @@ func (r *CSVFloat64Reader) ReadLines() <-chan LineData {
 	}()
 
 	return result
+}
+
+type ExpectedData struct {
+	Epsilon float64     `json:"epsilon"`
+	Data    [][]float64 `json:"data"`
+}
+
+type JSONTestData struct {
+	Input    [][]float64    `json:"input"`
+	Expected []ExpectedData `json:"expected"`
+}
+
+// TestDataReader reads a JSON file and returns its content as a map.
+// Arguments:
+//   - filePath (string): The path to the JSON file.
+//
+// Returns:
+//   - (*JSONTestData, error): A pointer to the JSONTestData and an error if any.
+func JSONTestDataReader(filePath string) (*JSONTestData, error) {
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+
+	var data JSONTestData
+	if err := json.Unmarshal(bytes, &data); err != nil {
+		return nil, err
+	}
+
+	return &data, nil
 }
