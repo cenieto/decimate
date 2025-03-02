@@ -14,7 +14,6 @@
 package tests
 
 import (
-	"fmt"
 	"github.com/cenieto/decimate/pkg/geom2d"
 	"github.com/cenieto/decimate/pkg/geom3d"
 	"github.com/cenieto/decimate/pkg/testutils"
@@ -61,7 +60,7 @@ func TestValidateInputPointListDifferntDimensions(t *testing.T) {
 
 	errorMsg := geometry.Decimate.ValidateInputPointList(points)
 
-	if errorMsg != nil {
+	if errorMsg == nil {
 		t.Errorf("It was expected to have an error message, but it was nil")
 	}
 

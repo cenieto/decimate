@@ -15,6 +15,7 @@ package testutils
 
 import (
 	"fmt"
+	"errors"
 )
 
 // CompareSlices compares two slices of nD points.

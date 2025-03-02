@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -161,7 +160,7 @@ func JSONTestDataReader(filePath string) (*JSONTestData, error) {
 	}
 	defer file.Close()
 
-	bytes, err := ioutil.ReadAll(file)
+	bytes, err := io.ReadAll(file)
 	if err != nil {
 		return nil, err
 	}
