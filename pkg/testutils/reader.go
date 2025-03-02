@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"io/ioutil"
+	"io"
 	"os"
 	"strconv"
 	"strings"

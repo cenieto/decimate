@@ -40,7 +40,7 @@ func CompareSlices(points [][]float64, expected [][]float64) (bool, error) {
 		}
 	}
 	if len(errorMsg) > 0 {
-		return false, fmt.Errorf(errorMsg)
+		return false, errors.New(errorMsg)
 	}
 
 	return true, nil

@@ -38,7 +38,7 @@ func TestValidateInputPointListOnePoint(t *testing.T) {
 
 	errorMsg := geometry.Decimate.ValidateInputPointList(points)
 	if errorMsg != nil {
-		fmt.Sprintf("It was expected to have an error message, but it was nil")
+		t.Errorf("It was expected to have an error message, but it was nil")
 	}
 
 }
@@ -62,7 +62,7 @@ func TestValidateInputPointListDifferntDimensions(t *testing.T) {
 	errorMsg := geometry.Decimate.ValidateInputPointList(points)
 
 	if errorMsg != nil {
-		fmt.Sprintf("It was expected to have an error message, but it was nil")
+		t.Errorf("It was expected to have an error message, but it was nil")
 	}
 
 }
