@@ -17,7 +17,7 @@ import (
 	"testing"
 )
 
-// TestCompareSlicesDifferentLength tests the Compare2DSlices function.
+// TestCompareSlicesDifferentLength tests the CompareSlices function.
 // It checks if the function returns an error when the input slices have different lengths.
 //
 // Arguments: none
@@ -32,13 +32,13 @@ func TestCompareSlicesEqual(t *testing.T) {
 		{3.0, 4.0},
 	}
 
-	result, _ := CompareDSlices(points, expected)
+	result, _ := CompareSlices(points, expected)
 	if !result {
 		t.Fatalf("Error while comparing slices")
 	}
 }
 
-// TestCompareSlicesDifferentLength tests the Compare2DSlices function.
+// TestCompareSlicesDifferentLength tests the CompareSlices function.
 // It checks if the function returns an error when the input slices have different lengths.
 //
 // Arguments: none
@@ -54,7 +54,7 @@ func TestCompareSlicesDifferentLength(t *testing.T) {
 		{3.0, 4.0},
 	}
 
-	result, error := Compare2DSlices(points, expected)
+	result, error := CompareSlices(points, expected)
 	if result {
 		t.Fatalf("Error while comparing slices, returned %v and must be false", result)
 	}
@@ -64,7 +64,7 @@ func TestCompareSlicesDifferentLength(t *testing.T) {
 	}
 }
 
-// TestCompareSlicesDifferentContent tests the Compare2DSlices function.
+// TestCompareSlicesDifferentContent tests the CompareSlices function.
 // It checks if the function returns an error when the input slices have different content.
 //
 // Arguments: none
@@ -79,7 +79,7 @@ func TestCompareSlicesDifferentContent(t *testing.T) {
 		{3.0, 4.0},
 	}
 
-	result, error := Compare2DSlices(points, expected)
+	result, error := CompareSlices(points, expected)
 	if result {
 		t.Fatalf("Error while comparing slices, returned %v and must be false", result)
 	}
